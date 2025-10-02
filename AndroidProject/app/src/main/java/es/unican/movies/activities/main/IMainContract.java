@@ -65,12 +65,12 @@ public interface IMainContract {
         /**
          * The view is requested to display the given list of movies.
          * Only the Presenter should call this method
-         * @param movies the list of charging stations
+         * @param movies the list of movies
          */
         public void showMovies(List<Movie> movies);
 
         /**
-         * The view is requested to display a notification indicating  that the movies
+         * The view is requested to display a notification indicating that the movies
          * were loaded correctly.
          * Only the Presenter should call this method
          * @param movies number of movies

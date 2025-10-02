@@ -36,7 +36,7 @@ public class ExampleUITest {
     @Rule(order = 1)
     public ActivityScenarioRule<MainView> activityRule = new ActivityScenarioRule<>(MainView.class);
 
-    // I need the context to access resources, such as the json with test gas stations
+    // I need the context to access resources, such as the json with movies
     final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     // Mock repository that provides data from a JSON file instead of downloading it from the internet.
