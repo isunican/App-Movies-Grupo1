@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,10 +20,25 @@ public class Movie {
     @SerializedName("id")
     protected int id;
 
-    @SerializedName("title")
+    @SerializedName("original_title")
     protected String title;
 
     @SerializedName("poster_path")
     protected String posterPath;
+
+    @SerializedName("runtime")
+    protected int runtime;
+
+    @SerializedName("vote_average")
+    protected double voteAverage;
+
+    @SerializedName("vote_count")
+    protected int voteCount;
+
+    @SerializedName("release_date")
+    protected String releaseDate;
+
+    @SerializedName("genres")
+    protected List<Genres> genres;
 
 }
