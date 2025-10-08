@@ -9,9 +9,11 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed; // Added import
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.CoreMatchers.anything;
 
@@ -49,4 +51,39 @@ public class ExampleUITest {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void tituloAusenteTest() {
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
+        onView(withId(R.id.tvTitle)).check(matches(withText("-")));
+    }
+
+    @Test
+    public void estrenoAusenteTest() {
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(1).perform(click());
+        onView(withId(R.id.tvEstreno)).check(matches(withText("-")));
+    }
+
+    @Test
+    public void generoAusenteTest() {
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
+        onView(withId(R.id.tvGenero)).check(matches(withText("-")));
+    }
+
+    @Test
+    public void posterAusenteTest() {
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(1).perform(click());
+        onView(withId(R.id.imPoster)).check(matches(withText("-")));
+    }
+
+    @Test
+    public void puntuacionMediaAusenteTest() {
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
+        onView(withId(R.id.tvPuntuacionMedia)).check(matches(withText("-")));
+    }
+
+    @Test
+    public void puntuacionSumariaAusenteTest() {
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
+        onView(withId(R.id.tvPuntuacionSumaria)).check(matches(withText("-")));
+    }
 }
