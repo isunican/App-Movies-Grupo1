@@ -32,12 +32,12 @@ public class CasoExitoTest {
     @Test
     public void peliMuestraDetallesTest(){
         // datos de la 1º peli del listView
-        final String TITULO_ESPERADO = "hhhhh";
-        final String ANIO_ESPERADO = "";
-        final String DURACION_ESPERADA = "";
-        final String GENERO_ESPERADO = "";
-        final String PUNTUACION_ESPERADA = "";
-        final String PSUMARIA_ESPERADA = "";
+        final String TITULO_ESPERADO = "The Fantastic 4: First Steps";
+        final String ANIO_ESPERADO = "2025";
+        final String DURACION_ESPERADA = "115";
+        final String GENERO_ESPERADO = "Ciencia ficción, Aventura";
+        final String PUNTUACION_ESPERADA = "7.175";
+        final String PSUMARIA_ESPERADA = "calculadaPorMetodo";
 
         // Accede o clicka en el primer elemento de la lista
         // usa onData pq no todos los objetos son visibles y cargados de primeras
