@@ -2,4 +2,10 @@
     <string name="app_name">Movies</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="info">Info</string>
+    <string name="poster_del_film">Póster del film</string>
+    <string name="a_o_de_estreno">Año de estreno:</string>
+    <string name="duraci_n">Duración:</string>
+    <string name="g_nero_s">Género(s):</string>
+    <string name="puntuaci_n_media">Puntuación media:</string>
+    <string name="puntuaci_n_sumaria">Puntuación sumaria:</string>
 </resources>
