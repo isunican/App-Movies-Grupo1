@@ -34,13 +34,13 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         setContentView(R.layout.activity_details);
 
         // Link UI elements
-        ivPoster = findViewById(R.id.ivPoster);
+        ivPoster = findViewById(R.id.imPoster);
         tvTitle = findViewById(R.id.tvTitle);
-        tvReleaseYear = findViewById(R.id.tvReleaseYear);
-        tvDuration = findViewById(R.id.tvDuration);
-        tvGenres = findViewById(R.id.tvGenres);
-        tvVoteAverage = findViewById(R.id.tvVoteAverage);
-        tvSummaryScore = findViewById(R.id.tvSummaryScore);
+        tvReleaseYear = findViewById(R.id.tvEstreno);
+        tvDuration = findViewById(R.id.tvDuracion);
+        tvGenres = findViewById(R.id.tvGenero);
+        tvVoteAverage = findViewById(R.id.tvPuntuacionMedia);
+        tvSummaryScore = findViewById(R.id.tvPuntuacionSumaria);
 
         // Create presenter and init
         presenter = new DetailsPresenter(this);
