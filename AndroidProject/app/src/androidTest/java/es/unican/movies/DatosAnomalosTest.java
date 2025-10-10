@@ -62,12 +62,8 @@ public class DatosAnomalosTest {
         // Esta película tiene un dato anómalo
         String peliculaDatoAnomalo = "The Fantastic 4: First Steps";
 
-        // 1. Busca un item en el ListView que corresponde a la película con el título Los Cuatro Fantásticos: Primeros pasos y haz click.
-        // Usar el onData de las traspas
+        // 1. Hago click en el primer elemento de la lista, que tiene datos anómalos.
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
-
-        //onData(allOf(is(instanceOf(Movie.class)), is(anUsuario)));
-        //onView(withId(R.id.tvTitle)).check(matches(withText(peliculaDatoAnomalo))).perform(click());
 
         // 2. Verifico que se ha cambiado a la vista de información detallada de la película correcta y el título es correcto.
         onView(withId(R.id.tvTitle)).check(matches(withText(peliculaDatoAnomalo)));
