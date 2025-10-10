@@ -58,8 +58,8 @@ public class DatosAnomalosTest {
         // Esta película tiene un dato anómalo
         String peliculaDatoAnomalo = "Weapons";
 
-        // 1. Busca un item en el ListView que corresponde a la película con el título Weapons y haz click.
-        onData(allOf(instanceOf(Movie.class), hasProperty("title", is(peliculaDatoAnomalo)))).perform(click());
+        // 1. Hago click en el primer elemento de la lista, que tiene datos anómalos.
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
 
         // 2. Verifico que se ha cambiado a la vista de información detallada de la película correcta y el título es correcto.
         onView(withId(R.id.tvTitle)).check(matches(withText(peliculaDatoAnomalo)));
