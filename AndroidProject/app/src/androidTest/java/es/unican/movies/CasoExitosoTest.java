@@ -81,7 +81,4 @@ public class CasoExitosoTest {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(8).perform(click());
         onView(withId(R.id.tvTitle)).check(matches(isDisplayed()));
     }
-
-
-
 }

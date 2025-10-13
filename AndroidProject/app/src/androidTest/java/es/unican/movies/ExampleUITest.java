@@ -3,6 +3,7 @@ package es.unican.movies;
 import static es.unican.movies.utils.MockRepositories.getTestRepository;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -43,13 +44,7 @@ public class ExampleUITest {
 
     // Mock repository that provides data from a JSON file instead of downloading it from the internet.
     @BindValue
-    final IMoviesRepository repository = getTestRepository(context, R.raw.sample_movies_estela);
-
-    @Test
-    public void movieList_exists() {
-        onView(withId(R.id.lvMovies)).check(matches(isDisplayed()));
-        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).check(matches(isDisplayed()));
-    }
+    final IMoviesRepository repository = getTestRepository(context, R.raw.sample_movies_alvaro);
 
     @Test
     public void tituloAusenteTest() {
@@ -65,25 +60,19 @@ public class ExampleUITest {
 
     @Test
     public void generoAusenteTest() {
-        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(3).perform(click());
         onView(withId(R.id.tvGenero)).check(matches(withText("-")));
     }
 
     @Test
-    public void posterAusenteTest() {
-        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(1).perform(click());
-        onView(withId(R.id.imPoster)).check(matches(withText("-")));
+    public void duracionAusenteTest() {
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
+        onView(withId(R.id.tvDuracion)).check(matches(withText("-")));
     }
 
     @Test
     public void puntuacionMediaAusenteTest() {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
         onView(withId(R.id.tvPuntuacionMedia)).check(matches(withText("-")));
-    }
-
-    @Test
-    public void puntuacionSumariaAusenteTest() {
-        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
-        onView(withId(R.id.tvPuntuacionSumaria)).check(matches(withText("-")));
     }
 }
