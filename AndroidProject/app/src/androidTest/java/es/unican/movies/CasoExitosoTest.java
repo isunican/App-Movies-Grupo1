@@ -44,7 +44,7 @@ public class CasoExitosoTest {
 
     // Mock repository that provides data from a JSON file instead of downloading it from the internet.
     @BindValue
-    final IMoviesRepository repository = getTestRepository(context, R.raw.sample_movies);
+    final IMoviesRepository repository = getTestRepository(context, R.raw.sample_movies_estela);
 
     @Test
     public void peliMuestraDetallesTest(){
