@@ -59,7 +59,7 @@
     "tagline": "Bienvenidos a la familia.",
     "title": "Los Cuatro Fantásticos: Primeros pasos",
     "video": false,
-    "vote_average": 7.175,
+    "vote_average": -1,
     "vote_count": 1535,
     "credits": {
       "cast": [
@@ -467,16 +467,7 @@
     "backdrop_path": "/iZLqwEwUViJdSkGVjePGhxYzbDb.jpg",
     "belongs_to_collection": null,
     "budget": 0,
-    "genres": [
-      {
-        "id": 878,
-        "name": "Ciencia ficción"
-      },
-      {
-        "id": 53,
-        "name": "Suspense"
-      }
-    ],
+    "genres": null,
     "homepage": "",
     "id": 755898,
     "imdb_id": "tt13186306",

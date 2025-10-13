@@ -22,7 +22,7 @@ import es.unican.movies.activities.details.DetailsView;
 import es.unican.movies.activities.main.MainView;
 
 @RunWith(AndroidJUnit4.class)
-public class CasoExitoTest {
+public class casoExitoTest {
 
 
     @Rule
@@ -72,6 +72,4 @@ public class CasoExitoTest {
         onView(ViewMatchers.withId(R.id.tvGenero)).check(matches(isDisplayed())); // Verifica que la vista está visible
         intented(hasComponent(DetailsView.class.getName())); // Verifica que lanza la actividad DetailsView)
     }
-
-
 }
