@@ -27,11 +27,15 @@ import org.junit.runner.RunWith;
 
 import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+import dagger.hilt.android.testing.UninstallModules;
 import es.unican.movies.activities.main.MainView;
+import es.unican.movies.injection.RepositoriesModule;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.IMoviesRepository;
 
-@RunWith(AndroidJUnit4.class)
+@UninstallModules(RepositoriesModule.class)
+@HiltAndroidTest
 public class DatosAnomalosTest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
@@ -56,19 +60,19 @@ public class DatosAnomalosTest {
     @Test
     public void test3() {
         // Esta película tiene un dato anómalo
-        String peliculaDatoAnomalo = "Weapons";
+        String peliculaDatoAnomalo = "The Fantastic 4: First Steps";
 
-        // 1. Busca un item en el ListView que corresponde a la película con el título Weapons y haz click.
-        onData(allOf(instanceOf(Movie.class), hasProperty("title", is(peliculaDatoAnomalo)))).perform(click());
+        // 1. Hago click en el primer elemento de la lista, que tiene datos anómalos.
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
 
         // 2. Verifico que se ha cambiado a la vista de información detallada de la película correcta y el título es correcto.
         onView(withId(R.id.tvTitle)).check(matches(withText(peliculaDatoAnomalo)));
 
         // 3. Verifico que el resto de campos válidos de la película se muestran correctamente.
-        onView(withId(R.id.tvGenero)).check(matches(withText("Terror, Misterio")));
-        onView(withId(R.id.tvDuracion)).check(matches(withText("2h 9m")));
+        onView(withId(R.id.tvGenero)).check(matches(withText("Ciencia ficción, Aventura")));
+        onView(withId(R.id.tvDuracion)).check(matches(withText("1h 55m")));
         onView(withId(R.id.tvEstreno)).check(matches(withText("2025")));
-        onView(withId(R.id.tvPuntuacionMedia)).check(matches(withText("7.40")));
+        onView(withId(R.id.tvPuntuacionMedia)).check(matches(withText("7.18")));
         onView(withId(R.id.imPoster)).check(matches(isDisplayed()));
 
         // 4. Verifico que la puntuación sumaria es "-" (debe ser así puesto que vote_count == -15).
