@@ -59,7 +59,7 @@
     "tagline": "Bienvenidos a la familia.",
     "title": "Los Cuatro Fantásticos: Primeros pasos",
     "video": false,
-    "vote_average": 7.175,
+    "vote_average": -1,
     "vote_count": -15,
     "credits": {
       "cast": [
@@ -695,16 +695,7 @@
     "backdrop_path": "/aIsjCdfiAS89cMjdDWEpKmUTHsZ.jpg",
     "belongs_to_collection": null,
     "budget": 10000000,
-    "genres": [
-      {
-        "id": 28,
-        "name": "Acción"
-      },
-      {
-        "id": 10752,
-        "name": "Bélica"
-      }
-    ],
+    "genres": null,
     "homepage": "",
     "id": 1009640,
     "imdb_id": "tt21442114",

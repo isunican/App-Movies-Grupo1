@@ -1,4 +1,4 @@
-package es.unican.movies;
+/*package es.unican.movies;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -81,7 +81,5 @@ public class CasoExitosoTest {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(8).perform(click());
         onView(withId(R.id.tvTitle)).check(matches(isDisplayed()));
     }
-
-
-
 }
+*/

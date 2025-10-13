@@ -44,7 +44,7 @@ public class ExampleUITest {
 
     // Mock repository that provides data from a JSON file instead of downloading it from the internet.
     @BindValue
-    final IMoviesRepository repository = getTestRepository(context, R.raw.sample_movies_Alvaro);
+    final IMoviesRepository repository = getTestRepository(context, R.raw.sample_movies_alvaro);
 
     @Test
     public void tituloAusenteTest() {
@@ -60,7 +60,7 @@ public class ExampleUITest {
 
     @Test
     public void generoAusenteTest() {
-        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(2).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(3).perform(click());
         onView(withId(R.id.tvGenero)).check(matches(withText("-")));
     }
 
