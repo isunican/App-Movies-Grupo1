@@ -148,12 +148,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         builder.setNegativeButton("CANCELAR", (dialog, which) -> dialog.dismiss());
 
-        builder.setNeutralButton("LIMPIAR", (dialog, which) -> {
-            if (!selectedGenres.isEmpty()) {
-                presenter.onGenresFiltered(new ArrayList<>());
-            }
-        });
-
         AlertDialog dialog = builder.create();
 
         dialog.setOnShowListener(d -> {
