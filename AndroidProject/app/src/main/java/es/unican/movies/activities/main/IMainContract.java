@@ -36,6 +36,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
+
     }
 
     /**

@@ -33,6 +33,7 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
+
     /**
      * Loads the movies from the repository, and sends them to the view
      */
