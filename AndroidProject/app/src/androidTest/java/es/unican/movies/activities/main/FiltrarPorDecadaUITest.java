@@ -50,7 +50,7 @@ public class FiltrarPorDecadaUITest {
         onView(withId(R.id.menuItemFilter)).perform(click());
         onView(withId(R.id.menuItemFilterDecade)).perform(click());
         onView(withId(R.id.menuItemDecada2020)).perform(click());
-        onView(withId(R.id.btnAplicar)).perform(click());
+        onView(withId(R.id.btnAplicarDecada)).perform(click());
 
         // Verificamos que aparecen las 9 películas de dicha década
         activityRule.getScenario().onActivity(activity -> {
