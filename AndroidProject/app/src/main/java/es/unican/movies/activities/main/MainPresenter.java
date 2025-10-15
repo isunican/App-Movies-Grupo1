@@ -46,7 +46,6 @@ public class MainPresenter implements IMainContract.Presenter {
             }
         });
     }
-
     @Override
     public void onFilterMenuClicked() {
         if (allMovies == null || allMovies.isEmpty()) {
@@ -69,13 +68,15 @@ public class MainPresenter implements IMainContract.Presenter {
 
         List<String> formattedGenres = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : sortedEntries) {
-            if (entry.getValue() > 0) { // Solo mostrar si hay 1 o más películas
+            if (entry.getValue() > 0) {
                 formattedGenres.add(String.format("%s (%d)", entry.getKey(), entry.getValue()));
             }
         }
 
-        view.showGenreFilterDialog(formattedGenres, selectedGenresForFilter);
+        // 🔹 Pasamos la lista de géneros a la vista
+        view.showFilterActivity(formattedGenres, selectedGenresForFilter);
     }
+
 
     @Override
     public void onGenresFiltered(List<String> selectedGenresWithCount) {

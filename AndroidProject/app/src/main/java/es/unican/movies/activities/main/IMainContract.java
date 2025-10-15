@@ -23,6 +23,9 @@ public interface IMainContract {
         void showLoadError();
         void showMovieDetails(Movie movie);
         void showInfoActivity();
-        void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres);
+
+        void showFilterActivity(List<String> genresWithCount, List<String> selectedGenres);
+
+        //void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres);
     }
 }
