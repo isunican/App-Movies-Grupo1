@@ -8,4 +8,9 @@
     <string name="g_nero_s">Género(s):</string>
     <string name="puntuaci_n_media">Puntuación media:</string>
     <string name="puntuaci_n_sumaria">Puntuación sumaria:</string>
+    <string name="filter_menu_title">Filtrar</string>
+    <string name="filter_by_genre">Género</string>
+    <string name="filter_by_decade">Década</string>
+    <string name="filter_limpiar">Limpiar</string>
+
 </resources>
