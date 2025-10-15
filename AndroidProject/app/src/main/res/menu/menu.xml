@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menuItemInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/info" />
+        android:title="@string/info">
+
+    </item>
 
     <item
-        android:id="@+id/filter_genre"
-        android:title="Filtrar por género"/>
-    <item
-        android:id="@+id/filter_decade"
-        android:title="Filtrar por década"/>
-    <item
-        android:id="@+id/btn_limpiar"
-        android:title="Limpiar"/>
-
+        android:id="@+id/menuItemFilter"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/filter_menu_title"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menuItemFilterGenre"
+                android:title="@string/filter_by_genre" />
+            <item
+                android:id="@+id/menuItemFilterDecade"
+                android:title="@string/filter_by_decade" />
+            <item
+                android:id="@+id/menuItemFilterLimpiar"
+                android:title="@string/filter_limpiar" />
+        </menu>
+    </item>
 </menu>
