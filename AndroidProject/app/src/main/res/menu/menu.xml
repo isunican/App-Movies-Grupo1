@@ -6,4 +6,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/info" />
+
+    <item
+        android:id="@+id/filter_genre"
+        android:title="Filtrar por género"/>
+    <item
+        android:id="@+id/filter_decade"
+        android:title="Filtrar por década"/>
+    <item
+        android:id="@+id/btn_limpiar"
+        android:title="Limpiar"/>
+
 </menu>

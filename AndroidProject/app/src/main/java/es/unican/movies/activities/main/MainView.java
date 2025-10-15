@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,8 +74,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     /**
      * This is called when an item in the action bar menu is selected.
-     * @param item The menu item that was selected.
      *
+     * @param item The menu item that was selected.
      * @return true if we have handled the selection
      */
     @Override
@@ -92,6 +94,35 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         lvMovies.setOnItemClickListener((parent, view, position, id) -> {
             Movie movie = (Movie) parent.getItemAtPosition(position);
             presenter.onItemClicked(movie);
+        });
+
+        // Configurar botón de filtro
+        ImageButton btnFilter = findViewById(R.id.btn_filter);
+        btnFilter.setOnClickListener(view -> {
+            PopupMenu popup = new PopupMenu(MainView.this, btnFilter);
+            popup.getMenuInflater().inflate(R.menu.menu, popup.getMenu());
+
+            // Opcional: si quieres ocultar el item de info en el popup
+            popup.getMenu().findItem(R.id.menuItemInfo).setVisible(false);
+
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.filter_genre) {
+                    Toast.makeText(MainView.this, "Filtrar por género", Toast.LENGTH_SHORT).show();
+                    // Lógica de filtrado por género
+                    return true;
+                } else if (id == R.id.filter_decade) {
+                    Toast.makeText(MainView.this, "Filtrar por década", Toast.LENGTH_SHORT).show();
+                    // Lógica de filtrado por década
+                    return true;
+                } else if(id == R.id.btn_limpiar) {
+                    Toast.makeText(MainView.this, "Limpiar", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            });
+
+            popup.show();
         });
     }
 
