@@ -3,7 +3,6 @@ package es.unican.movies;
 import static es.unican.movies.utils.MockRepositories.getTestRepository;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -13,7 +12,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed; // Added import
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.CoreMatchers.anything;
@@ -49,7 +47,7 @@ public class ExampleUITest {
     @Test
     public void tituloAusenteTest() {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
-        onView(withId(R.id.tvTitle)).check(matches(withText("-")));
+        onView(withId(R.id.tvTituloGenero)).check(matches(withText("-")));
     }
 
     @Test

@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+
+
 @Getter
 @Setter
 @Parcel
+
 public class Genres {
     private Integer id;
     private String name;
