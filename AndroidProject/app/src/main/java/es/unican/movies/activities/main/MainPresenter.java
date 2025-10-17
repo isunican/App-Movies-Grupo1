@@ -22,6 +22,14 @@ public class MainPresenter implements IMainContract.Presenter {
     private List<String> selectedGenresForFilter = new ArrayList<>();
     private final Map<String, Integer> genreCounts = new HashMap<>();
 
+    /**
+     * Inicializa el presentador, estableciendo la conexión con la vista.
+     * Este método debe ser llamado por la vista (Activity) en su fase de creación.
+     * Guarda una referencia a la vista, la inicializa y comienza la carga
+     * inicial de películas.
+     *
+     * @param view La instancia de la vista que este presentador controlará.
+     */
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
@@ -29,6 +37,12 @@ public class MainPresenter implements IMainContract.Presenter {
         load();
     }
 
+    /**
+     * Solicita el listado completo de películas al repositorio.
+     * En caso de éxito, actualiza las listas de películas (tanto la completa como
+     * la que se muestra) y le ordena a la vista que las muestre.
+     * En caso de fallo, le ordena a la vista que muestre un mensaje de error.
+     */
     private void load() {
         IMoviesRepository repository = view.getMoviesRepository();
         repository.requestAggregateMovies(new ICallback<List<Movie>>() {
@@ -46,8 +60,15 @@ public class MainPresenter implements IMainContract.Presenter {
             }
         });
     }
+
+    /**
+     * Se invoca cuando el usuario solicita abrir el filtro por géneros.
+     * Calcula la cantidad de películas por cada género (incluyendo la categoría "NA"
+     * para películas sin género), ordena los géneros de más a menos en cantidad y
+     * finalmente le pide a la vista que muestre el diálogo de filtrado con los datos preparados.
+     */
     @Override
-    public void onFilterMenuClicked() {
+    public void onFilterGenreMenuClicked() {
         if (allMovies == null || allMovies.isEmpty()) {
             return;
         }
@@ -74,10 +95,23 @@ public class MainPresenter implements IMainContract.Presenter {
         }
 
         // 🔹 Pasamos la lista de géneros a la vista
-        view.showFilterActivity(formattedGenres, selectedGenresForFilter);
+<<<<<<< HEAD
+        view.showFilterByGenreActivity(formattedGenres, selectedGenresForFilter);
+=======
+        view.showFilterGenresDialog(formattedGenres, selectedGenresForFilter);
+>>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
     }
 
-
+    /**
+     * Aplica el filtro por géneros seleccionado por el usuario.
+     * Este método recibe la lista de géneros seleccionados desde la vista,
+     * procesa la lista para filtrar las películas y luego las ordena según
+     * la popularidad del género. Finalmente, actualiza la vista para que
+     * muestre solo las películas filtradas y ordenadas.
+     *
+     * @param selectedGenresWithCount La lista de géneros seleccionados por el usuario,
+     *                                incluyendo el conteo (ej. "Action (15)").
+     */
     @Override
     public void onGenresFiltered(List<String> selectedGenresWithCount) {
         selectedGenresForFilter = selectedGenresWithCount;
@@ -123,6 +157,17 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showLoadCorrect(displayedMovies.size());
     }
 
+    /**
+     * Calcula un "rango" o "puntuación de popularidad" para una película, basado en los
+     * géneros seleccionados para el filtro. El rango es igual al número de películas
+     * que tiene el género más popular de la película (dentro de los seleccionados).
+     * Este método es utilizado para ordenar la lista de películas filtradas.
+     *
+     * @param movie La película a la que se le calculará el rango.
+     * @param selectedGenres El conjunto de géneros (sin conteo) que el usuario ha seleccionado.
+     * @return Un entero que representa la popularidad de la película para la ordenación.
+     */
+
     private int getMovieGenreRank(Movie movie, Set<String> selectedGenres) {
         if (movie.getGenres() == null || movie.getGenres().isEmpty()) {
             return selectedGenres.contains("NA") ? genreCounts.getOrDefault("NA", 0) : 0;
@@ -130,6 +175,7 @@ public class MainPresenter implements IMainContract.Presenter {
         int maxRank = 0;
         for (Genres genre : movie.getGenres()) {
             if (selectedGenres.contains(genre.getName())) {
+
                 int rank = genreCounts.getOrDefault(genre.getName(), 0);
                 if (rank > maxRank) {
                     maxRank = rank;
@@ -139,6 +185,13 @@ public class MainPresenter implements IMainContract.Presenter {
         return maxRank;
     }
 
+    /**
+     * Gestiona la acción de clic sobre una película en la lista principal.
+     * Le ordena a la vista que navegue a la pantalla de detalles de la
+     * película seleccionada.
+     *
+     * @param movie La película sobre la que el usuario ha hecho clic.
+     */
     @Override
     public void onItemClicked(Movie movie) {
         if (movie == null) {
@@ -147,6 +200,11 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showMovieDetails(movie);
     }
 
+    /**
+     * Gestiona la acción de clic sobre el ícono de información en la barra de
+     * acciones. Le ordena a la vista que navegue a la pantalla de información.
+     *
+     */
     @Override
     public void onMenuInfoClicked() {
         view.showInfoActivity();

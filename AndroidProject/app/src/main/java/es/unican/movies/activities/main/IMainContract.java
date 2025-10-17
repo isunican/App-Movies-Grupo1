@@ -11,7 +11,7 @@ public interface IMainContract {
         void init(View view);
         void onItemClicked(Movie movie);
         void onMenuInfoClicked();
-        void onFilterMenuClicked();
+        void onFilterGenreMenuClicked();
         void onGenresFiltered(List<String> selectedGenres);
     }
 
@@ -24,8 +24,12 @@ public interface IMainContract {
         void showMovieDetails(Movie movie);
         void showInfoActivity();
 
-        void showFilterActivity(List<String> genresWithCount, List<String> selectedGenres);
+<<<<<<< HEAD
+        void showFilterByGenreActivity(List<String> genresWithCount, List<String> selectedGenres);
+=======
+        void showFilterGenresDialog(List<String> genresWithCount, List<String> selectedGenres);
+>>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
 
-        //void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres);
+        void showFilterDecadesDialog(List<String> decadesWithCount, List<String> selectedDecades);
     }
 }
