@@ -85,8 +85,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             presenter.onFilterGenreMenuClicked();
             return true;
         } else if (itemId == R.id.menuItemFilterDecade) {
+<<<<<<< HEAD
             // Funcionalidad no implementada todavía
             Toast.makeText(this, "Esta funcionalidad estará disponible próximamente", Toast.LENGTH_SHORT).show();
+=======
+            presenter.onFilterMenuClicked();
+>>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -148,19 +152,32 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
      * @param selectedGenresSaved Lista de géneros que el usuario había seleccionado previamente.
      */
     @Override
+<<<<<<< HEAD
     public void showFilterByGenreActivity(List<String> genresWithCount, List<String> selectedGenresSaved) {
+=======
+    public void showFilterGenresDialog(List<String> genresWithCount, List<String> selectedGenresSaved) {
+        //Cargar el layout del diálogo
+>>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_filter_genre, null);
         builder.setView(dialogView);
 
+        //Obtener los elementos del layout
         LinearLayout container = dialogView.findViewById(R.id.containerGenros);
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarGenero);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarGenero);
 
+<<<<<<< HEAD
         // Lista para guardar los géneros que el usuario selecciona en este diálogo
         List<String> selectedGenres = new ArrayList<>();
 
         // Crea un CheckBox para cada género disponible
+=======
+        //Guardar lo que el usuario selecciona ahora
+        List<String> selectedGenres = new ArrayList<>();
+
+        //Recorre todos los géneros disponibles
+>>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
         for (String genre : genresWithCount) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(genre);
@@ -199,4 +216,57 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         dialog.show();
     }
+<<<<<<< HEAD
+=======
+
+    @Override
+    public void showFilterDecadesDialog(List<String> decadesWithCount, List<String> selectedDecadesSaved) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_filter_decade, null);
+        builder.setView(dialogView);
+
+        LinearLayout container = dialogView.findViewById(R.id.containerDecadas);
+        Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDecada);
+        Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
+
+        //Aquí guardamos lo que el usuario selecciona ahora
+        List<String> selectedGenres = new ArrayList<>();
+
+        for (String genre : decadesWithCount) {
+            CheckBox checkBox = new CheckBox(this);
+            checkBox.setText(genre);
+            checkBox.setTextSize(16);
+            checkBox.setPadding(8, 8, 8, 8);
+
+            //Marcamos los que ya estaban seleccionados
+            if (selectedDecadesSaved != null && selectedDecadesSaved.contains(genre)) {
+                checkBox.setChecked(true);
+                selectedGenres.add(genre);
+            }
+
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedGenres.add(genre);
+                } else {
+                    selectedGenres.remove(genre);
+                }
+            });
+
+            container.addView(checkBox);
+        }
+
+        AlertDialog dialog = builder.create();
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnAplicar.setOnClickListener(v -> {
+            // 🔹 Enviamos al presenter los géneros seleccionados
+            presenter.onGenresFiltered(selectedGenres);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+>>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
 }
