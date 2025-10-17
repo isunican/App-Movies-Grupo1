@@ -24,12 +24,8 @@ public interface IMainContract {
         void showMovieDetails(Movie movie);
         void showInfoActivity();
 
-<<<<<<< HEAD
         void showFilterByGenreActivity(List<String> genresWithCount, List<String> selectedGenres);
-=======
-        void showFilterGenresDialog(List<String> genresWithCount, List<String> selectedGenres);
->>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
 
-        void showFilterDecadesDialog(List<String> decadesWithCount, List<String> selectedDecades);
+        //void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres);
     }
 }

@@ -55,7 +55,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         Picasso.get().load(imageUrl).fit().centerInside().into(ivPoster);
 
         // titulo
-        TextView tvTitle = convertView.findViewById(R.id.tvTituloDecadas);
+        TextView tvTitle = convertView.findViewById(R.id.tvTituloGenero);
         tvTitle.setText(movie.getTitle());
 
         return convertView;
