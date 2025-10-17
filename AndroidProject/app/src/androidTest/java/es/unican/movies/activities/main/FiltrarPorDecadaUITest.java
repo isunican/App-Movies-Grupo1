@@ -5,6 +5,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.containsString;
 import static es.unican.movies.utils.MockRepositories.getTestRepository;
 
 import android.content.Context;
@@ -49,7 +51,7 @@ public class FiltrarPorDecadaUITest {
         // Pulsamos el boton y aplicamos el filtro por década de 2020
         onView(withId(R.id.menuItemFilter)).perform(click());
         onView(withId(R.id.menuItemFilterDecade)).perform(click());
-        onView(withId(R.id.menuItemDecada2020)).perform(click());
+        onView(withText(containsString("2020's"))).perform(click());
         onView(withId(R.id.btnAplicarDecada)).perform(click());
 
         // Verificamos que aparecen las 9 películas de dicha década
@@ -77,7 +79,7 @@ public class FiltrarPorDecadaUITest {
         onView(withId(R.id.menuItemFilterDecade)).perform(click());
 
         // Verificamos que el botón de aplicar esté deshabilitado
-        onView(withId(R.id.btnAplicar)).check(matches(isNotEnabled()));
+        onView(withId(R.id.btnAplicarDecada)).check(matches(isNotEnabled()));
     }
 
 }
