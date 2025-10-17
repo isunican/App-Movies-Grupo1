@@ -33,19 +33,13 @@ import es.unican.movies.service.IMoviesRepository;
 @AndroidEntryPoint
 public class MainView extends AppCompatActivity implements IMainContract.View {
 
-    // Referencia al presentador (parte del patrón MVP)
     private IMainContract.Presenter presenter;
 
-    // Repositorio de películas inyectado con Hilt (inyección de dependencias)
     @Inject
     IMoviesRepository repository;
 
-    // ListView donde se mostrarán las películas
     private ListView lvMovies;
 
-    // ---------------------------------------------------------------------------------------------
-    // MÉTODO onCreate: punto de entrada de la actividad
-    // ---------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,20 +54,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         presenter.init(this);
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // Crea el menú de opciones (tres puntos o icono de filtro)
-    // ---------------------------------------------------------------------------------------------
+    // Crea el menú de opciones.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        // Infla el archivo XML del menú (res/menu/menu.xml)
+        // Coge el archivo XML del menú (res/menu/menu.xml)
         menuInflater.inflate(R.menu.menu, menu);
         return true;
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Maneja los clics en los ítems del menú superior
-    // ---------------------------------------------------------------------------------------------
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -84,17 +74,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             return true;
 
         } else if (itemId == R.id.menuItemFilterGenre) {
-            // Abre el diálogo de filtros por género
+            // Abre el filtrado por género
             presenter.onFilterMenuClicked();
             return true;
 
         } else if (itemId == R.id.menuItemFilterDecade) {
-            // Muestra un mensaje indicando que la función no está disponible aún
+            // AQUI VA FILTRO POR DECADA
+            //
+            //
             Toast.makeText(this, "Esta funcionalidad estará disponible próximamente", Toast.LENGTH_SHORT).show();
             return true;
 
         } else if (itemId == R.id.menuItemFilterLimpiar) {
-            // Limpia todos los filtros de género y recarga las películas
+            // Limpia todos los filtros de género y decada y recarga las películas
             presenter.onGenresFiltered(new ArrayList<>());
             Toast.makeText(this, "Filtros de género limpiados", Toast.LENGTH_SHORT).show();
             return true;
@@ -103,9 +95,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         return super.onOptionsItemSelected(item);
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Inicializa los componentes de la vista
-    // ---------------------------------------------------------------------------------------------
     @Override
     public void init() {
         lvMovies = findViewById(R.id.lvMovies);
@@ -117,43 +107,33 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Retorna el repositorio de películas (inyectado con Hilt)
-    // ---------------------------------------------------------------------------------------------
     @Override
     public IMoviesRepository getMoviesRepository() {
         return repository;
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Muestra la lista de películas en pantalla
-    // ---------------------------------------------------------------------------------------------
     @Override
     public void showMovies(List<Movie> movies) {
         MovieAdapter adapter = new MovieAdapter(this, movies);
         lvMovies.setAdapter(adapter);
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Muestra un mensaje cuando las películas se cargan correctamente
-    // ---------------------------------------------------------------------------------------------
     @Override
     public void showLoadCorrect(int movies) {
         String text = String.format("Se cargaron %d películas", movies);
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Muestra un mensaje cuando ocurre un error al cargar las películas
-    // ---------------------------------------------------------------------------------------------
     @Override
     public void showLoadError() {
         Toast.makeText(this, "Error al cargar las películas", Toast.LENGTH_SHORT).show();
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Abre la vista de detalles de una película seleccionada
-    // ---------------------------------------------------------------------------------------------
     @Override
     public void showMovieDetails(Movie movie) {
         Intent intent = new Intent(this, DetailsView.class);
@@ -161,17 +141,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
-    // ---------------------------------------------------------------------------------------------
     // Abre la actividad de información (InfoActivity)
-    // ---------------------------------------------------------------------------------------------
     @Override
     public void showInfoActivity() {
         startActivity(new Intent(this, InfoActivity.class));
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // Muestra un diálogo para filtrar las películas por género
-    // ---------------------------------------------------------------------------------------------
+    // Filtrado las películas por género
     @Override
     public void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -206,12 +182,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             d.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(changed);
         });
 
-        // Botón "Aplicar" → notifica al presentador con los géneros seleccionados
+        // Botón "Aplicar" que notifica al presentador con los géneros seleccionados
         builder.setPositiveButton("APLICAR", (dialog, which) -> {
             presenter.onGenresFiltered(new ArrayList<>(tempSelected));
         });
 
-        // Botón "Cancelar" → cierra el diálogo sin aplicar cambios
+        // Botón "Cancelar" que cierra el diálogo sin aplicar cambios
         builder.setNegativeButton("CANCELAR", (dialog, which) -> dialog.dismiss());
 
         // Crea el diálogo
