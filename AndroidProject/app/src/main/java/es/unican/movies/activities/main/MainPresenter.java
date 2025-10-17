@@ -95,11 +95,7 @@ public class MainPresenter implements IMainContract.Presenter {
         }
 
         // 🔹 Pasamos la lista de géneros a la vista
-<<<<<<< HEAD
         view.showFilterByGenreActivity(formattedGenres, selectedGenresForFilter);
-=======
-        view.showFilterGenresDialog(formattedGenres, selectedGenresForFilter);
->>>>>>> e9761b7b873f5aea269a746f7126585e01cae0a8
     }
 
     /**

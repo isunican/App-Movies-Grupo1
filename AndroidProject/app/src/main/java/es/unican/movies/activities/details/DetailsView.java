@@ -35,7 +35,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
 
         // Link UI elements
         ivPoster = findViewById(R.id.imPoster);
-        tvTitle = findViewById(R.id.tvTituloDecadas);
+        tvTitle = findViewById(R.id.tvTituloGenero);
         tvReleaseYear = findViewById(R.id.tvEstreno);
         tvDuration = findViewById(R.id.tvDuracion);
         tvGenres = findViewById(R.id.tvGenero);

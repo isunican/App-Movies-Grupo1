@@ -61,9 +61,9 @@ public class CasoExitosoTest {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
 
         // Verifica que la vistaDetalle está visible
-        onView(ViewMatchers.withId(R.id.tvTituloDecadas)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.tvTituloGenero)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.tvTituloDecadas)).check(matches(withText(TITULO_ESPERADO)));
+        onView(withId(R.id.tvTituloGenero)).check(matches(withText(TITULO_ESPERADO)));
         onView(withId(R.id.tvEstreno)).check(matches(withText(ANIO_ESPERADO)));
         onView(withId(R.id.tvDuracion)).check(matches(withText(DURACION_ESPERADA)));
         onView(withId(R.id.tvGenero)).check(matches(withText(GENERO_ESPERADO)));
@@ -79,6 +79,6 @@ public class CasoExitosoTest {
     public void seleccionaPeliculaConScrollTest (){
         // peli de primeras no visible, requiere scroll
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(8).perform(click());
-        onView(withId(R.id.tvTituloDecadas)).check(matches(isDisplayed()));
+        onView(withId(R.id.tvTituloGenero)).check(matches(isDisplayed()));
     }
 }
