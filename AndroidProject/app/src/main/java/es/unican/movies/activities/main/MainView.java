@@ -70,7 +70,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             presenter.onFilterMenuClicked();
             return true;
         } else if (itemId == R.id.menuItemFilterDecade) {
-            Toast.makeText(this, "Esta funcionalidad estará disponible próximamente", Toast.LENGTH_SHORT).show();
+            presenter.onFilterMenuClicked();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -118,18 +118,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(new Intent(this, InfoActivity.class));
     }
     @Override
-    public void showFilterActivity(List<String> genresWithCount, List<String> selectedGenresSaved) {
+    public void showFilterGenresDialog(List<String> genresWithCount, List<String> selectedGenresSaved) {
+        //Cargar el layout del diálogo
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_filter_genre, null);
         builder.setView(dialogView);
 
+        //Obtener los elementos del layout
         LinearLayout container = dialogView.findViewById(R.id.containerGenros);
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarGenero);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarGenero);
 
-        // 🔹 Aquí guardamos lo que el usuario selecciona ahora
+        //Guardar lo que el usuario selecciona ahora
         List<String> selectedGenres = new ArrayList<>();
 
+        //Recorre todos los géneros disponibles
         for (String genre : genresWithCount) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(genre);
@@ -166,54 +169,53 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         dialog.show();
     }
 
-
-
-
-    /*
     @Override
-    public void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres) {
+    public void showFilterDecadesDialog(List<String> decadesWithCount, List<String> selectedDecadesSaved) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Filtrar por Género");
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_filter_decade, null);
+        builder.setView(dialogView);
 
-        final CharSequence[] genreNames = allGenres.toArray(new CharSequence[0]);
-        final boolean[] checkedItems = new boolean[genreNames.length];
-        final Set<String> tempSelected = new HashSet<>(selectedGenres);
+        LinearLayout container = dialogView.findViewById(R.id.containerDecadas);
+        Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDecada);
+        Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
 
-        for (int i = 0; i < genreNames.length; i++) {
-            checkedItems[i] = tempSelected.contains(genreNames[i].toString());
+        //Aquí guardamos lo que el usuario selecciona ahora
+        List<String> selectedGenres = new ArrayList<>();
+
+        for (String genre : decadesWithCount) {
+            CheckBox checkBox = new CheckBox(this);
+            checkBox.setText(genre);
+            checkBox.setTextSize(16);
+            checkBox.setPadding(8, 8, 8, 8);
+
+            //Marcamos los que ya estaban seleccionados
+            if (selectedDecadesSaved != null && selectedDecadesSaved.contains(genre)) {
+                checkBox.setChecked(true);
+                selectedGenres.add(genre);
+            }
+
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedGenres.add(genre);
+                } else {
+                    selectedGenres.remove(genre);
+                }
+            });
+
+            container.addView(checkBox);
         }
-
-        builder.setMultiChoiceItems(genreNames, checkedItems, (dialog, which, isChecked) -> {
-            String genre = genreNames[which].toString();
-            if (isChecked) {
-                tempSelected.add(genre);
-            } else {
-                tempSelected.remove(genre);
-            }
-            AlertDialog d = (AlertDialog) dialog;
-            boolean changed = !tempSelected.equals(new HashSet<>(selectedGenres));
-            d.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(changed);
-        });
-
-        builder.setPositiveButton("APLICAR", (dialog, which) -> {
-            presenter.onGenresFiltered(new ArrayList<>(tempSelected));
-        });
-
-        builder.setNegativeButton("CANCELAR", (dialog, which) -> dialog.dismiss());
-
-        builder.setNeutralButton("LIMPIAR", (dialog, which) -> {
-            if (!selectedGenres.isEmpty()) {
-                presenter.onGenresFiltered(new ArrayList<>());
-            }
-        });
 
         AlertDialog dialog = builder.create();
 
-        dialog.setOnShowListener(d -> {
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(!selectedGenres.isEmpty());
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnAplicar.setOnClickListener(v -> {
+            // 🔹 Enviamos al presenter los géneros seleccionados
+            presenter.onGenresFiltered(selectedGenres);
+            dialog.dismiss();
         });
 
         dialog.show();
-    }*/
+    }
+
 }
