@@ -10,7 +10,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import static es.unican.movies.utils.MockRepositories.getTestRepository;
@@ -18,12 +17,10 @@ import static es.unican.movies.utils.MockRepositories.getTestRepository;
 import android.content.Context;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -31,7 +28,6 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import es.unican.movies.activities.main.MainView;
 import es.unican.movies.injection.RepositoriesModule;
-import es.unican.movies.model.Movie;
 import es.unican.movies.service.IMoviesRepository;
 
 @UninstallModules(RepositoriesModule.class)
@@ -66,7 +62,7 @@ public class DatosAnomalosTest {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
 
         // 2. Verifico que se ha cambiado a la vista de información detallada de la película correcta y el título es correcto.
-        onView(withId(R.id.tvTitle)).check(matches(withText(peliculaDatoAnomalo)));
+        onView(withId(R.id.tvTituloGenero)).check(matches(withText(peliculaDatoAnomalo)));
 
         // 3. Verifico que el resto de campos válidos de la película se muestran correctamente.
         onView(withId(R.id.tvGenero)).check(matches(withText("Ciencia ficción, Aventura")));
