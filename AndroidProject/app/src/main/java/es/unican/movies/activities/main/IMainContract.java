@@ -11,7 +11,7 @@ public interface IMainContract {
         void init(View view);
         void onItemClicked(Movie movie);
         void onMenuInfoClicked();
-        void onFilterMenuClicked();
+        void onFilterGenreMenuClicked();
         void onGenresFiltered(List<String> selectedGenres);
     }
 
@@ -23,6 +23,9 @@ public interface IMainContract {
         void showLoadError();
         void showMovieDetails(Movie movie);
         void showInfoActivity();
-        void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres);
+
+        void showFilterByGenreActivity(List<String> genresWithCount, List<String> selectedGenres);
+
+        //void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres);
     }
 }
