@@ -1,4 +1,4 @@
-package es.unican.movies;
+package es.unican.movies.activities.main;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -8,8 +8,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-
-// Útil para asegurar visibilidad
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static org.hamcrest.Matchers.anything;
 
@@ -25,7 +23,7 @@ import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
-import es.unican.movies.activities.main.MainView;
+import es.unican.movies.R;
 import es.unican.movies.injection.RepositoriesModule;
 import es.unican.movies.service.IMoviesRepository;
 
@@ -54,45 +52,29 @@ public class LimpiarFiltroUITest {
     private static final String TITULO_PELI_FILTRADA = "Universidad de Cantabria";
 
     /**
-     * Estan seleccionados ambos filtros previamente, tanto de decada como de genero
-     * Género: Suspense(4), Década: 2020-2029
-     * Resultado: el desplegable se debe cerrar, la lista de películas muestra todas las películas del JSON (que son 9).
-
-     * - Botón de filtros principal: R.id.filter_button
-     * - Contenedor del desplegable/diálogo de filtros: R.id.filter_dialog_container (o un ID visible)
-     * - Botón 'Limpiar' dentro del desplegable: R.id.clear_button (o con withText("Limpiar"))
-     * - Lista de películas (RecyclerView): R.id.movie_list
-     */
-
-    /**
-     * Simular la selección de filtros: Abrir el menú, seleccionar un Género y hacer
-     * clic en Aplicar. Repetir para Década.Verificar que los filtros se aplicaron (opcional,
-     * pero buena práctica). Ejecutar la acción de limpieza: Abrir el menú de filtro y seleccionar
-     * Limpiar.Verificar el resultado: Comprobar que el $\text{ListView}$ se ha actualizado y
+     * Simular la selección de los 2 filtros, verificar que los filtros se aplicaron.
+     * Ejecutar limpiar: Abrir el menú de filtro y seleccionar
+     * Verificar el resultado: Comprobar que el $\text{ListView}$ se ha actualizado y
      * ahora muestra la lista completa de películas sin ningún filtro aplicado.
      */
 
     @Test
     public void limpiarAmbosFiltrosTest() {
 
-        // para aplicar filtro genero - abrir menu ppal
-        //openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        // para aplicar filtros - abrir menu ppal
         onView(withId(R.id.menuItemFilter)).perform(click());
 
-        //onView(withText(R.string.filter_menu_title)).perform(click()); // click en Filtro
-
-        // aplicar filtro de genero
-      //  onView(withId(R.id.menuItemFilterGenre)).perform(click());
+        // seleccionar filtro 'Género'
         onView(withText(R.string.filter_by_genre)).perform(click()); // busca por su etiqueta visible en vez del id
         onView(withText("Acción (6)")).perform(click());
         onView(withText("APLICAR")).perform(click());
 
-        // aplicar filtro de decadas
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
-        onView(withText(R.string.filter_menu_title)).perform(click()); // click en Filtro
-        onView(withId(R.id.menuItemFilterDecade)).perform(click());
+        // aplicar filtro de 'Década'
+        onView(withId(R.id.menuItemFilter)).perform(click());  // abre icono filtros
+        onView(withText(R.string.filter_by_decade)).perform(click()); // clicka en 'Década'
+       // onView(withId(R.id.menuItemFilterDecade)).perform(click());
         onView(withText("2000-2009")).perform(click());
-        onView(withText("Aplicar")).perform(click());
+        onView(withText("APLICAR")).perform(click());
 
         // se muestra peli
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).check(matches(hasDescendant(withText(TITULO_PELI_FILTRADA))));
