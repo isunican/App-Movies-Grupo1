@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -116,15 +117,26 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showLoadCorrect(int movies) {
-        // Muestra un mensaje Toast de éxito indicando cuántas películas se han cargado
+       // Muestra un mensaje Toast de éxito indicando cuántas películas se han cargado
         String text = String.format("Se cargaron %d películas", movies);
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void showLoadError() {
         // Muestra un mensaje Toast de error si falla la carga de películas
-        Toast.makeText(this, "Error al cargar las películas", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Error al cargar las películas", Toast.LENGTH_SHORT).show();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_error, null);
+        builder.setView(dialogView);
+
+        TextView tvMensajeError = dialogView.findViewById(R.id.tvMensajeError);
+        tvMensajeError.setText("Error al cargar las peliculas");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

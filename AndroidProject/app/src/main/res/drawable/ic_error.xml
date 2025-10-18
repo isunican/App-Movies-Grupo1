@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Triángulo amarillo -->
+    <path
+        android:fillColor="#EBD200"
+        android:pathData="M1,21h22L12,2 1,21z"/>
+
+    <!-- Exclamación negra -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M11,10h2v5h-2zM11,17h2v2h-2z"/>
+</vector>
