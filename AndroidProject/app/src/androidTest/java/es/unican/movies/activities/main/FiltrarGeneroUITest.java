@@ -8,7 +8,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.CoreMatchers.allOf;
 import static es.unican.movies.utils.MockRepositories.getTestRepository;
 
 import android.content.Context;
@@ -56,33 +58,30 @@ public class FiltrarGeneroUITest {
                 .check(matches(isDisplayed()));
 
         // Paso 3: El usuario selecciona el filtro de "Género"
-        onView(withId(R.id.menuItemGenre))
+        onView(withText("Género"))
                 .perform(click());
 
-        // Paso 4: El sistema muestra otro desplegable con los géneros y número de coincidencias
-        // Ejemplo: "Acción (6)" debe aparecer como opción
-        onView(allOf(withText(containsString("Acción")), withText(containsString("6"))))
-                .check(matches(isDisplayed()));
+
         //Comprobar que sale 6 junto a "acción"
         // Paso 5: El usuario selecciona el género "Acción"
-        onView(withText(containsString("Acción")))
+        onView(allOf(withText(containsString("Acción")), withText(containsString("6"))))
                 .perform(click());
 
         // Paso 6: El usuario pulsa el botón "Aplicar"
-        onView(withId(R.id.btnAplicarFiltros))
+        onView(withId(R.id.btnAplicarGenero))
                 .perform(click());
 
         // Paso 7: Se verifica que el sistema muestra las películas de ese género
         for (int i = 0; i < 6; i++) { // Sabemos por el JSON que hay 6 de Acción
             onData(anything())
-                    .inAdapterView(withId(R.id.recyclerPeliculas))
+                    .inAdapterView(withId(R.id.lvMovies))
                     .atPosition(i)
-                    .onChildView(withId(R.id.tvGenero))
+                    .onChildView(withId(R.id.tvTituloGenero))
                     .check(matches(withText(containsString("Acción"))));
         }
 
         // Paso 8: Verificamos que la vista de resultados está visible
-        onView(withId(R.id.recyclerPeliculas))
+        onView(withId(R.id.lvMovies))
                 .check(matches(isDisplayed()));
     }
     @Test
@@ -100,7 +99,7 @@ public class FiltrarGeneroUITest {
                 .perform(click());
         // Paso 4: Se verifica que el sistema no permite pulsar el botón de "Aplicar".
         //Para ello, comprobamos que el botón con id `btnAplicarFiltros` NO está habilitado (isEnabled).
-        onView(withId(R.id.btnAplicarFiltros))
+        onView(withId(R.id.btnAplicarGenero))
                 .check(matches(isNotEnabled()));
         }
 
