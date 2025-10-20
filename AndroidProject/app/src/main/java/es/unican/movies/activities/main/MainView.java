@@ -1,12 +1,17 @@
 package es.unican.movies.activities.main;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,9 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -45,160 +48,168 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Configura la toolbar como ActionBar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Crea el presentador y lo inicializa con la vista actual
         presenter = new MainPresenter();
         presenter.init(this);
     }
 
-    // Crea el menú de opciones.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        // Coge el archivo XML del menú (res/menu/menu.xml)
         menuInflater.inflate(R.menu.menu, menu);
         return true;
     }
 
-    // Maneja los clics en los ítems del menú superior
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-
         if (itemId == R.id.menuItemInfo) {
-            // Abre la pantalla de información
             presenter.onMenuInfoClicked();
             return true;
-
         } else if (itemId == R.id.menuItemFilterGenre) {
-            // Abre el filtrado por género
-            presenter.onFilterMenuClicked();
+            presenter.onFilterGenreMenuClicked();
             return true;
-
         } else if (itemId == R.id.menuItemFilterDecade) {
-            // AQUI VA FILTRO POR DECADA
-            //
-            //
-            Toast.makeText(this, "Esta funcionalidad estará disponible próximamente", Toast.LENGTH_SHORT).show();
-            return true;
-
-        } else if (itemId == R.id.menuItemFilterLimpiar) {
-            // Limpia todos los filtros de género y decada y recarga las películas
-            presenter.onGenresFiltered(new ArrayList<>());
-            Toast.makeText(this, "Filtros de género limpiados", Toast.LENGTH_SHORT).show();
+            presenter.onFilterDecadeMenuClicked();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    // Inicializa los componentes de la vista
     @Override
     public void init() {
         lvMovies = findViewById(R.id.lvMovies);
-
-        // Configura un listener para detectar clics en los ítems del ListView
         lvMovies.setOnItemClickListener((parent, view, position, id) -> {
-            // Notifica al presentador qué película se seleccionó
             presenter.onItemClicked((Movie) parent.getItemAtPosition(position));
         });
     }
 
-    // Retorna el repositorio de películas (inyectado con Hilt)
     @Override
     public IMoviesRepository getMoviesRepository() {
         return repository;
     }
 
-    // Muestra la lista de películas en pantalla
     @Override
     public void showMovies(List<Movie> movies) {
         MovieAdapter adapter = new MovieAdapter(this, movies);
         lvMovies.setAdapter(adapter);
     }
 
-    // Muestra un mensaje cuando las películas se cargan correctamente
     @Override
     public void showLoadCorrect(int movies) {
         String text = String.format("Se cargaron %d películas", movies);
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    // Muestra un mensaje cuando ocurre un error al cargar las películas
     @Override
     public void showLoadError() {
         Toast.makeText(this, "Error al cargar las películas", Toast.LENGTH_SHORT).show();
     }
 
-    // Abre la vista de detalles de una película seleccionada
     @Override
     public void showMovieDetails(Movie movie) {
         Intent intent = new Intent(this, DetailsView.class);
-        intent.putExtra(DetailsView.INTENT_MOVIE, Parcels.wrap(movie)); // Se pasa la película como objeto parcelable
+        intent.putExtra(DetailsView.INTENT_MOVIE, Parcels.wrap(movie));
         startActivity(intent);
     }
 
-    // Abre la actividad de información (InfoActivity)
     @Override
     public void showInfoActivity() {
         startActivity(new Intent(this, InfoActivity.class));
     }
 
-    // Filtrado las películas por género
     @Override
-    public void showGenreFilterDialog(List<String> allGenres, List<String> selectedGenres) {
+    public void showFilterByGenreActivity(List<String> genresWithCount, List<String> selectedGenresSaved) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Filtrar por Género");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_filter_genre, null);
+        builder.setView(dialogView);
 
-        // Convierte la lista de géneros a un arreglo de CharSequence para usarlo en el diálogo
-        final CharSequence[] genreNames = allGenres.toArray(new CharSequence[0]);
-        final boolean[] checkedItems = new boolean[genreNames.length];
+        LinearLayout container = dialogView.findViewById(R.id.containerGenros);
+        Button btnCancelar = dialogView.findViewById(R.id.btnCancelarGenero);
+        Button btnAplicar = dialogView.findViewById(R.id.btnAplicarGenero);
 
-        // Usa un Set temporal para almacenar los géneros seleccionados
-        final Set<String> tempSelected = new HashSet<>(selectedGenres);
+        List<String> selectedGenres = new ArrayList<>();
 
-        // Marca los checkboxes según los géneros actualmente seleccionados
-        for (int i = 0; i < genreNames.length; i++) {
-            checkedItems[i] = tempSelected.contains(genreNames[i].toString());
-        }
+        for (String genre : genresWithCount) {
+            CheckBox checkBox = new CheckBox(this);
+            checkBox.setText(genre);
+            checkBox.setTextSize(16);
+            checkBox.setPadding(8, 8, 8, 8);
 
-        // Listener para los checkboxes del diálogo
-        builder.setMultiChoiceItems(genreNames, checkedItems, (dialog, which, isChecked) -> {
-            String genre = genreNames[which].toString();
-
-            // Agrega o quita el género de la lista temporal según el estado del checkbox
-            if (isChecked) {
-                tempSelected.add(genre);
-            } else {
-                tempSelected.remove(genre);
+            if (selectedGenresSaved != null && selectedGenresSaved.contains(genre)) {
+                checkBox.setChecked(true);
+                selectedGenres.add(genre);
             }
 
-            // Habilita el botón "Aplicar" solo si hubo cambios
-            AlertDialog d = (AlertDialog) dialog;
-            boolean changed = !tempSelected.equals(new HashSet<>(selectedGenres));
-            d.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(changed);
-        });
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedGenres.add(genre);
+                } else {
+                    selectedGenres.remove(genre);
+                }
+            });
 
-        // Botón "Aplicar" que notifica al presentador con los géneros seleccionados
-        builder.setPositiveButton("APLICAR", (dialog, which) -> {
-            presenter.onGenresFiltered(new ArrayList<>(tempSelected));
-        });
+            container.addView(checkBox);
+        }
 
-        // Botón "Cancelar" que cierra el diálogo sin aplicar cambios
-        builder.setNegativeButton("CANCELAR", (dialog, which) -> dialog.dismiss());
-
-        // Crea el diálogo
         AlertDialog dialog = builder.create();
 
-        // Cuando se muestra el diálogo, el botón "Aplicar" empieza deshabilitado
-        dialog.setOnShowListener(d -> {
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnAplicar.setOnClickListener(v -> {
+            presenter.onGenresFiltered(selectedGenres);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void showFilterByDecadeActivity(List<String> decadesWithCount, List<String> selectedDecadesSaved) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_filter_decade, null);
+        builder.setView(dialogView);
+
+        LinearLayout container = dialogView.findViewById(R.id.containerDecadas);
+        Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDecada);
+        Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
+
+        final List<String> selectedDecades = new ArrayList<>();
+
+        for (String decade : decadesWithCount) {
+            CheckBox checkBox = new CheckBox(this);
+            checkBox.setText(decade);
+            checkBox.setTextSize(16);
+            checkBox.setPadding(8, 8, 8, 8);
+
+            if (selectedDecadesSaved != null && selectedDecadesSaved.contains(decade)) {
+                checkBox.setChecked(true);
+                selectedDecades.add(decade);
+            }
+
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedDecades.add(decade);
+                } else {
+                    selectedDecades.remove(decade);
+                }
+            });
+            container.addView(checkBox);
+        }
+
+        AlertDialog dialog = builder.create();
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnAplicar.setOnClickListener(v -> {
+            presenter.onDecadesFiltered(selectedDecades);
+            dialog.dismiss();
         });
 
         dialog.show();
     }
 }
-

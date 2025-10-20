@@ -12,5 +12,7 @@
     <string name="filter_by_genre">Género</string>
     <string name="filter_by_decade">Década</string>
     <string name="filter_limpiar">Limpiar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="aplicar">Aplicar</string>
 
 </resources>

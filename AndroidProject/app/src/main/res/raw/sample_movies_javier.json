@@ -60,229 +60,7 @@
     "title": "Los Cuatro Fantásticos: Primeros pasos",
     "video": false,
     "vote_average": 7.175,
-    "vote_count": -15,
-    "credits": {
-      "cast": [
-        {
-          "adult": false,
-          "gender": 2,
-          "id": 1253360,
-          "known_for_department": "Acting",
-          "name": "Pedro Pascal",
-          "original_name": "Pedro Pascal",
-          "popularity": 10.3597,
-          "profile_path": "/oKcMbVn0NJTNzQt0ClKKvVXkm60.jpg",
-          "cast_id": 23,
-          "character": "Reed Richards / Mister Fantastic",
-          "credit_id": "65cce4a4e210230162c35b9f",
-          "order": 0
-        },
-        {
-          "adult": false,
-          "gender": 1,
-          "id": 556356,
-          "known_for_department": "Acting",
-          "name": "Vanessa Kirby",
-          "original_name": "Vanessa Kirby",
-          "popularity": 7.1824,
-          "profile_path": "/a8a9U00KL2JJkkekzhNnueIGKKF.jpg",
-          "cast_id": 24,
-          "character": "Sue Storm / Invisible Woman",
-          "credit_id": "65cce4c0efd3c2017c37d90f",
-          "order": 1
-        },
-        {
-          "adult": false,
-          "gender": 2,
-          "id": 21042,
-          "known_for_department": "Acting",
-          "name": "Ebon Moss-Bachrach",
-          "original_name": "Ebon Moss-Bachrach",
-          "popularity": 2.0519,
-          "profile_path": "/xD8GVNayMpiTZxLfahy2DseYcQq.jpg",
-          "cast_id": 26,
-          "character": "Ben Grimm / The Thing",
-          "credit_id": "65cce4d813af5f017c9fed78",
-          "order": 2
-        },
-        {
-          "adult": false,
-          "gender": 2,
-          "id": 1597365,
-          "known_for_department": "Acting",
-          "name": "Joseph Quinn",
-          "original_name": "Joseph Quinn",
-          "popularity": 5.4996,
-          "profile_path": "/zshhuioZaH8S5ZKdMcojzWi1ntl.jpg",
-          "cast_id": 27,
-          "character": "Johnny Storm / Human Torch",
-          "credit_id": "65cce4e7e210230185c40b56",
-          "order": 3
-        },
-        {
-          "adult": false,
-          "gender": 2,
-          "id": 202032,
-          "known_for_department": "Acting",
-          "name": "Ralph Ineson",
-          "original_name": "Ralph Ineson",
-          "popularity": 2.4473,
-          "profile_path": "/sn3ONJw2pJxMHiCqPwvkaiWr5mc.jpg",
-          "cast_id": 38,
-          "character": "Galactus",
-          "credit_id": "663d48d191ead4bae330077f",
-          "order": 4
-        },
-        {
-          "adult": false,
-          "gender": 1,
-          "id": 936970,
-          "known_for_department": "Acting",
-          "name": "Julia Garner",
-          "original_name": "Julia Garner",
-          "popularity": 4.055,
-          "profile_path": "/ud1RXbvW70J89iqeic7no8olxvb.jpg",
-          "cast_id": 33,
-          "character": "Shalla-Bal / Silver Surfer",
-          "credit_id": "660dc566e039f1017ce7d4d7",
-          "order": 5
-        },
-        {
-          "adult": false,
-          "gender": 2,
-          "id": 1294982,
-          "known_for_department": "Acting",
-          "name": "Paul Walter Hauser",
-          "original_name": "Paul Walter Hauser",
-          "popularity": 1.9135,
-          "profile_path": "/nmBdzJpfHMRHsT3VrjyXAxMFLZA.jpg",
-          "cast_id": 36,
-          "character": "Harvey Elder / Mole Man",
-          "credit_id": "6633ec239652200127f6422b",
-          "order": 6
-        },
-        {
-          "adult": false,
-          "gender": 1,
-          "id": 10871,
-          "known_for_department": "Acting",
-          "name": "Natasha Lyonne",
-          "original_name": "Natasha Lyonne",
-          "popularity": 2.4719,
-          "profile_path": "/2QJoTBEIeYyjGSDot9qxv2ayPH3.jpg",
-          "cast_id": 40,
-          "character": "Rachel Rozman",
-          "credit_id": "6644ecfc0c18fad384242429",
-          "order": 7
-        },
-        {
-          "adult": false,
-          "gender": 1,
-          "id": 65447,
-          "known_for_department": "Acting",
-          "name": "Sarah Niles",
-          "original_name": "Sarah Niles",
-          "popularity": 1.8286,
-          "profile_path": "/ySelhnmCCX9VnlPvceO9c5XOelK.jpg",
-          "cast_id": 76,
-          "character": "Lynne Nichols / F4 Chief of Staff",
-          "credit_id": "6736e6736bd4889bfbc799c1",
-          "order": 8
-        },
-        {
-          "adult": false,
-          "gender": 2,
-          "id": 34546,
-          "known_for_department": "Acting",
-          "name": "Mark Gatiss",
-          "original_name": "Mark Gatiss",
-          "popularity": 1.2993,
-          "profile_path": "/rkZKKDRbnGqqg2fjd5iPYDS4syy.jpg",
-          "cast_id": 155,
-          "character": "Ted Gilbert",
-          "credit_id": "67f2fdbbe1d5c23c6ed968b1",
-          "order": 9
-        }
-      ],
-      "crew": [
-        {
-          "adult": false,
-          "gender": 2,
-          "id": 1212522,
-          "known_for_department": "Directing",
-          "name": "Matt Shakman",
-          "original_name": "Matt Shakman",
-          "popularity": 1.1471,
-          "profile_path": "/kraLXlC9egJh4pTNTpKUYhkkNiu.jpg",
-          "credit_id": "630747a2dcb6a300835876e5",
-          "department": "Directing",
-          "job": "Director"
-        }
-      ]
-    }
-  },
-  {
-    "adult": false,
-    "backdrop_path": "/3IgJReIyunq95ta86CTSOs9vAht.jpg",
-    "belongs_to_collection": null,
-    "budget": 200000000,
-    "genres": [
-      {
-        "id": 878,
-        "name": "Ciencia ficción"
-      },
-      {
-        "id": 12,
-        "name": "Aventura"
-      }
-    ],
-    "homepage": "https://www.disney.es/peliculas/los-cuatro-fantasticos-primeros-pasos",
-    "id": 617126,
-    "imdb_id": "tt10676052",
-    "origin_country": [
-      "US"
-    ],
-    "original_language": "en",
-    "original_title": "Película inventada",
-    "overview": "Con un mundo retrofuturista inspirado en los años 60 como telón de fondo, la Primera Familia de Marvel deberá hacer frente a su mayor desafío hasta la fecha. Obligados a buscar el equilibrio entre su papel de héroes y sus fuertes vínculos familiares, tendrán que defender la Tierra de un hambriento dios espacial llamado Galactus y su intrigante heraldo, Estela Plateada.",
-    "popularity": 691.9206,
-    "poster_path": "/ckfiXWGEMWrUP53cc6QyHijLlhl.jpg",
-    "production_companies": [
-      {
-        "id": 420,
-        "logo_path": "/hUzeosd33nzE5MCNsZxCGEKTXaQ.png",
-        "name": "Marvel Studios",
-        "origin_country": "US"
-      },
-      {
-        "id": 176762,
-        "logo_path": null,
-        "name": "Kevin Feige Productions",
-        "origin_country": "US"
-      }
-    ],
-    "production_countries": [
-      {
-        "iso_3166_1": "US",
-        "name": "United States of America"
-      }
-    ],
-    "release_date": "",
-    "revenue": 520716140,
-    "runtime": 115,
-    "spoken_languages": [
-      {
-        "english_name": "English",
-        "iso_639_1": "en",
-        "name": "English"
-      }
-    ],
-    "status": "Released",
-    "tagline": "Bienvenidos a la familia.",
-    "title": "Pelicula inventada",
-    "video": false,
-    "vote_average": 7.175,
-    "vote_count": 15,
+    "vote_count": 1535,
     "credits": {
       "cast": [
         {
@@ -508,7 +286,7 @@
         "name": "Japan"
       }
     ],
-    "release_date": null,
+    "release_date": "2025-07-18",
     "revenue": 558756781,
     "runtime": 155,
     "spoken_languages": [
@@ -738,7 +516,7 @@
     ],
     "release_date": "2025-07-29",
     "revenue": 0,
-    "runtime": null,
+    "runtime": 90,
     "spoken_languages": [
       {
         "english_name": "English",
@@ -1945,7 +1723,7 @@
     "title": "Weapons",
     "video": false,
     "vote_average": 7.402,
-    "vote_count": 1502,
+    "vote_count": 1592,
     "credits": {
       "cast": [
         {
