@@ -233,12 +233,6 @@ public class MainPresenter implements IMainContract.Presenter {
             Set<String> cleanSelectedGenresSet = selectedGenresForFilter.stream()
                     .map(name -> name.replaceAll("\\s*\\(\\d+\\)$", "").trim())
                     .collect(Collectors.toSet());
-
-            displayedMovies.sort((m1, m2) -> {
-                int rank1 = getMovieGenreRank(m1, cleanSelectedGenresSet, currentCountsForSorting);
-                int rank2 = getMovieGenreRank(m2, cleanSelectedGenresSet, currentCountsForSorting);
-                return Integer.compare(rank2, rank1);
-            });
         }
 
         view.showMovies(displayedMovies);
@@ -305,27 +299,6 @@ public class MainPresenter implements IMainContract.Presenter {
             // Si es NA (año inválido o nulo) y "NA" está seleccionado, se incluye
             return isNA && cleanSelectedDecades.contains("NA");
         }).collect(Collectors.toList());
-    }
-
-    /**
-     * Calcula un "rango" o "puntuación" para una película, basado en la popularidad de sus géneros
-     * dentro de la lista de géneros seleccionados. Se usa para ordenar las películas.
-     * @param movie La película a la que calcular el rango.
-     * @param selectedGenres Los géneros seleccionados por el usuario.
-     * @param counts El mapa con los conteos de popularidad de cada género.
-     * @return El rango máximo encontrado entre los géneros de la película.
-     */
-    private int getMovieGenreRank(Movie movie, Set<String> selectedGenres, Map<String, Integer> counts) {
-        if (movie.getGenres() == null || movie.getGenres().isEmpty()) {
-            return selectedGenres.contains("NA") ? counts.getOrDefault("NA", 0) : 0;
-        }
-        int maxRank = 0;
-        for (Genres genre : movie.getGenres()) {
-            if (selectedGenres.contains(genre.getName())) {
-                maxRank = Math.max(maxRank, counts.getOrDefault(genre.getName(), 0));
-            }
-        }
-        return maxRank;
     }
 
     /**
