@@ -5,22 +5,28 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.not;
 import static es.unican.movies.utils.MockRepositories.getTestRepository;
 
 import android.content.Context;
+import android.widget.ListView;
 
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -28,6 +34,8 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import es.unican.movies.R;
 import es.unican.movies.injection.RepositoriesModule;
+import es.unican.movies.model.Genres;
+import es.unican.movies.model.Movie;
 import es.unican.movies.service.IMoviesRepository;
 
 @UninstallModules(RepositoriesModule.class)
@@ -71,14 +79,31 @@ public class FiltrarGeneroUITest {
         onView(withId(R.id.btnAplicarGenero))
                 .perform(click());
 
-        // Paso 7: Se verifica que el sistema muestra las películas de ese género
-        for (int i = 0; i < 6; i++) { // Sabemos por el JSON que hay 6 de Acción
-            onData(anything())
-                    .inAdapterView(withId(R.id.lvMovies))
-                    .atPosition(i)
-                    .onChildView(withId(R.id.tvTituloGenero))
-                    .check(matches(withText(containsString("Acción"))));
-        }
+        // Verificamos que aparecen las 6 películas de dicho género
+        activityRule.getScenario().onActivity(activity -> {            ListView lv = activity.findViewById(R.id.lvMovies);
+            // 1. Verificamos que el número de películas mostradas es el correcto (6)
+            Assert.assertEquals(6, lv.getCount());
+
+            // 2. Iteramos sobre las películas mostradas para verificar su género
+            for (int i = 0; i < lv.getCount(); i++) { // Bucle corregido para usar lv.getCount()
+                Movie movie = (Movie) lv.getAdapter().getItem(i);
+                List<Genres> genres = movie.getGenres();
+
+                // 3. Comprobamos que la película contiene el género "Acción"
+                // Esto es más robusto que mirar solo la posición 0
+                boolean tieneGeneroAccion = false;
+                if (genres != null) {
+                    for (Genres genre : genres) {
+                        if ("Acción".equals(genre.getName())) {
+                            tieneGeneroAccion = true;
+                            break; // Salimos del bucle interior en cuanto lo encontramos
+                        }
+                    }
+                }
+                // 4. Afirmamos que el género fue encontrado para esta película
+                Assert.assertTrue(movie.getTitle() , tieneGeneroAccion);
+            }
+        });
 
         // Paso 8: Verificamos que la vista de resultados está visible
         onView(withId(R.id.lvMovies))
@@ -99,8 +124,7 @@ public class FiltrarGeneroUITest {
                 .perform(click());
         // Paso 4: Se verifica que el sistema no permite pulsar el botón de "Aplicar".
         //Para ello, comprobamos que el botón con id `btnAplicarFiltros` NO está habilitado (isEnabled).
-        onView(withId(R.id.btnAplicarGenero))
-                .check(matches(isNotEnabled()));
+        onView(withId(R.id.btnAplicarGenero)).check(matches(not(isEnabled())));
         }
 
 

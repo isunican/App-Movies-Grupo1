@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia de Usuario 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #673ab7;
+            text-align: center;
+        }
+
+        ol {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+            list-style-type: none;
+        }
+
+        ol li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        ol li b {
+            display: block;
+            margin-bottom: 5px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .video-container {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .video-container video {
+            width: 40%;
+            max-width: 300px;
+            border-radius: 8px;
+        }
+
+        a.back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #673ab7;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a.back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>US520977 - FiltrarPorDecada</h1>
+
+    <ol>
+        <li><b>Paso 1:</b> El usuario inicia la acción presionando el botón de filtros, ubicado en la parte superior de
+            la pantalla o en un menú lateral.</li>
+        <li><b>Paso 2:</b> El sistema muestra un desplegable con todos los tipos de filtros disponibles, como género,
+            año, calificación, etc. Aquí el usuario selecciona la opción de "Década".</li>
+        <li><b>Paso 3:</b> El usuario elige la opción “Década”, indicando que quiere ver solo películas estrenadas
+            dentro
+            de una o varias décadas específicas.</li>
+        <li><b>Paso 4:</b> El sistema despliega una lista con todas las décadas disponibles (si una década no tiene películas sale "0").
+            Cada década muestra el número de películas que pertenecen a ese rango temporal, y la lista está ordenada de
+            la más reciente a la más antigua.</li>
+        <li><b>Paso 5:</b> El usuario selecciona una o varias décadas que desea aplicar como filtro. Por ejemplo, puede
+            escoger “1980s” y “1990s” si quiere ver películas estrenadas en esas décadas.</li>
+        <li><b>Paso 6:</b> Una vez que el usuario ha hecho su selección, pulsa el botón “Aplicar” para confirmar su
+            elección.</li>
+        <li><b>Paso 7:</b> El sistema cierra automáticamente el menú de filtros, dejando visible solo la lista de
+            películas filtradas según las décadas seleccionadas.</li>
+
+        <!-- 🔽 Video dentro del recuadro -->
+    <div class="video-container">
+        <video controls>
+            <source src="videoUS520977-FiltrarPorDecada.mp4" type="video/mp4">
+            Tu navegador no soporta video.
+        </video>
+    </div>
+    </ol>
+
+    <!-- 🔽 Enlace debajo del recuadro -->
+    <a class="back-link" href="..\index.html">← Volver a la lista</a>
+</body>
+
+</html>
