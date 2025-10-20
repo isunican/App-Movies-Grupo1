@@ -42,24 +42,23 @@
         }
 
         .video-container {
-            margin: 30px auto;
-            max-width: 600px;
+            margin-top: 25px;
             text-align: center;
-            /* centra el contenido dentro del contenedor */
         }
 
         .video-container video {
-            width: 100%;
+            width: 40%;
+            max-width: 300px;
             border-radius: 8px;
         }
 
         a.back-link {
-            display: inline-block;
+            display: block;
+            text-align: center;
             margin-top: 20px;
             color: #673ab7;
             text-decoration: none;
             font-weight: bold;
-            text-align: center;
         }
 
         a.back-link:hover {
@@ -86,16 +85,18 @@
             elección.</li>
         <li><b>Paso 7:</b>El sistema cierra automáticamente el menú de filtros, dejando visible solo la lista de
             películas filtradas.</li>
+
+        <!-- 🔽 Video dentro del recuadro -->
+        <div class="video-container">
+            <video controls>
+                <source src="videoUS516153-FiltrarPorGenero.mp4" type="video/mp4">
+                Tu navegador no soporta video.
+            </video>
+        </div>
     </ol>
 
-    <div class="video-container">
-        <video controls>
-            <source src="demo1.mp4" type="video/mp4">
-            Tu navegador no soporta video.
-        </video>
-
-        <!-- El enlace dentro del contenedor para centrarlo -->
-        <a class="back-link" href="..\index.html">← Volver a la lista</a>
-    </div>
+    <!-- 🔽 Enlace debajo del recuadro -->
+    <a class="back-link" href="..\index.html">← Volver a la lista</a>
 </body>
+
 </html>
