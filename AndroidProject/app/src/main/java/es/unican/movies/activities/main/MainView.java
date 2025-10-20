@@ -23,6 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -145,7 +146,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarGenero);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarGenero);
 
+        btnAplicar.setEnabled(false);
+
         List<String> selectedGenres = new ArrayList<>();
+
 
         for (String genre : genresWithCount) {
             CheckBox checkBox = new CheckBox(this);
@@ -158,12 +162,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 selectedGenres.add(genre);
             }
 
+            List<String> initialSelection = new ArrayList<>(selectedGenres);
+
+
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     selectedGenres.add(genre);
                 } else {
                     selectedGenres.remove(genre);
                 }
+
+                boolean changed = !new HashSet<>(selectedGenres).equals(new HashSet<>(initialSelection));
+                btnAplicar.setEnabled(changed);
             });
 
             container.addView(checkBox);
@@ -195,6 +205,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDecada);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
 
+        btnAplicar.setEnabled(false);
+
         final List<String> selectedDecades = new ArrayList<>();
 
         for (String decade : decadesWithCount) {
@@ -208,12 +220,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 selectedDecades.add(decade);
             }
 
+            List<String> initialSelection = new ArrayList<>(selectedDecades);
+
+
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     selectedDecades.add(decade);
                 } else {
                     selectedDecades.remove(decade);
                 }
+
+                boolean changed = !new HashSet<>(selectedDecades).equals(new HashSet<>(initialSelection));
+                btnAplicar.setEnabled(changed);
+
             });
             container.addView(checkBox);
         }
