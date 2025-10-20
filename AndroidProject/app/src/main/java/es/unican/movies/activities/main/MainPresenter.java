@@ -139,7 +139,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
         Map<Integer, Integer> decadeCounts = new TreeMap<>();
         int lastDecade = (Calendar.getInstance().get(Calendar.YEAR) / 10) * 10;
-        for (int decade = 1950; decade <= lastDecade; decade += 10) {
+        for (int decade = 1900; decade <= lastDecade; decade += 10) {
             decadeCounts.put(decade, 0);
         }
 
