@@ -137,46 +137,48 @@ public class MainPresenter implements IMainContract.Presenter {
 
         List<Movie> moviesToConsider = applyGenreFilter(new ArrayList<>(allMovies));
 
-        Map<Integer, Integer> decadeCounts = new TreeMap<>();
+        Map<String, Integer> decadeCounts = new TreeMap<>();
         int lastDecade = (Calendar.getInstance().get(Calendar.YEAR) / 10) * 10;
         for (int decade = 1900; decade <= lastDecade; decade += 10) {
-            decadeCounts.put(decade, 0);
+            decadeCounts.put(decade + "'s", 0);
         }
+        decadeCounts.put("NA", 0); // Añade la categoría para fechas no disponibles/inválidas
 
         for (Movie movie : moviesToConsider) {
             String yearStr = movie.getYear();
+            boolean isNA = true;
             if (yearStr != null && !yearStr.trim().isEmpty()) {
                 try {
                     int year = Integer.parseInt(yearStr.trim());
-                    int decade = (year / 10) * 10;
-                    decadeCounts.computeIfPresent(decade, (k, v) -> v + 1);
+                    String decadeKey = (year / 10) * 10 + "'s";
+                    if (decadeCounts.containsKey(decadeKey)) {
+                        decadeCounts.computeIfPresent(decadeKey, (k, v) -> v + 1);
+                        isNA = false;
+                    }
                 } catch (NumberFormatException e) {
-                    // Ignora películas con formato de año inválido
+                    // El año no es un número válido, se tratará como NA
                 }
+            }
+            if (isNA) {
+                decadeCounts.computeIfPresent("NA", (k, v) -> v + 1);
             }
         }
 
-        // Actualiza los contadores en la lista de décadas ya seleccionadas
         Set<String> cleanSelectedDecades = selectedDecadesForFilter.stream()
                 .map(d -> d.replaceAll("\\s*\\(\\d+\\)$", "").trim())
                 .collect(Collectors.toSet());
 
         List<String> updatedSelectedDecades = new ArrayList<>();
         for (String decadeName : cleanSelectedDecades) {
-            try {
-                int decadeInt = Integer.parseInt(decadeName.replace("'s", ""));
-                Integer newCount = decadeCounts.get(decadeInt);
-                if (newCount != null) {
-                    updatedSelectedDecades.add(String.format("%d's (%d)", decadeInt, newCount));
-                }
-            } catch (NumberFormatException e) {
-                // Ignora si el formato no es el esperado
+            Integer newCount = decadeCounts.get(decadeName);
+            if (newCount != null) {
+                updatedSelectedDecades.add(String.format("%s (%d)", decadeName, newCount));
             }
         }
         this.selectedDecadesForFilter = updatedSelectedDecades;
 
         List<String> formattedDecades = decadeCounts.entrySet().stream()
-                .map(entry -> String.format("%d's (%d)", entry.getKey(), entry.getValue()))
+                .map(entry -> String.format("%s (%d)", entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
 
         view.showFilterByDecadeActivity(formattedDecades, selectedDecadesForFilter);
@@ -279,20 +281,29 @@ public class MainPresenter implements IMainContract.Presenter {
             return movies;
         }
 
-        List<String> cleanSelectedDecades = selectedDecadesForFilter.stream()
+        Set<String> cleanSelectedDecades = selectedDecadesForFilter.stream()
                 .map(decade -> decade.replaceAll("\\s*\\(\\d+\\)$", "").trim())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
         return movies.stream().filter(movie -> {
             String yearStr = movie.getYear();
-            if (yearStr == null || yearStr.trim().isEmpty()) return false;
-            try {
-                int year = Integer.parseInt(yearStr.trim());
-                String decadeString = (year / 10) * 10 + "'s";
-                return cleanSelectedDecades.contains(decadeString);
-            } catch (NumberFormatException e) {
-                return false;
+            boolean isNA = true;
+
+            if (yearStr != null && !yearStr.trim().isEmpty()) {
+                try {
+                    int year = Integer.parseInt(yearStr.trim());
+                    String decadeString = (year / 10) * 10 + "'s";
+                    if (cleanSelectedDecades.contains(decadeString)) {
+                        return true; // La película pertenece a una década seleccionada
+                    }
+                    isNA = false; // El año es válido, por lo tanto no es NA
+                } catch (NumberFormatException e) {
+                    // El año no es un número válido, se considera NA
+                }
             }
+
+            // Si es NA (año inválido o nulo) y "NA" está seleccionado, se incluye
+            return isNA && cleanSelectedDecades.contains("NA");
         }).collect(Collectors.toList());
     }
 
