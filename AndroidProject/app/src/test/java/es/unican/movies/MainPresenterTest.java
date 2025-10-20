@@ -43,7 +43,7 @@ public class MainPresenterTest {
     @Captor
     private ArgumentCaptor<ICallback<List<Movie>>> callbackCaptor;
 
-    private Movie movie1, movie2, movie3;
+    private Movie movie1, movie2, movie3, movie4, movie5;
     private List<Movie> allMovies;
 
     @Before
@@ -63,14 +63,25 @@ public class MainPresenterTest {
 
         movie1 = new Movie();
         movie1.setGenres(Collections.singletonList(genreAccion));
+        movie1.setReleaseDate("2022"); // Película de la década de 2020
 
         movie2 = new Movie();
         movie2.setGenres(Arrays.asList(genreAccion, genreAventura));
+        movie2.setReleaseDate("1995"); // Película de otra década
 
         movie3 = new Movie();
         movie3.setGenres(Collections.singletonList(genreComedia));
+        movie3.setReleaseDate("2021"); // Película de la década de 2020
 
-        allMovies = Arrays.asList(movie1, movie2, movie3);
+        movie4 = new Movie(); // Película con año nulo
+        movie4.setReleaseDate(null);
+        movie4.setGenres(Collections.emptyList());
+
+        movie5 = new Movie(); // Película con año vacío
+        movie5.setReleaseDate("");
+        movie5.setGenres(Collections.emptyList());
+
+        allMovies = Arrays.asList(movie1, movie2, movie3, movie4, movie5);
     }
 
     private void simulateSuccessfulLoad() {
@@ -176,10 +187,66 @@ public class MainPresenterTest {
         // showMovies se llama en onSuccess, y de nuevo en onGenresFiltered
         // que a su vez llama a applyFilters. Como el filtro está vacío,
         // no se vuelve a llamar a showMovies, solo la vez inicial.
-        verify(mockView, times(1)).showMovies(moviesCaptor.capture());
+        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
         Assert.assertEquals(allMovies.size(), result.size());
         Assert.assertTrue(result.containsAll(allMovies));
+    }
+
+    @Test
+    public void testFilterNoDecadeSelected() {
+        // Arrange
+        simulateSuccessfulLoad();
+        List<String> emptyFilter = new ArrayList<>();
+
+        // Act
+        presenter.onDecadesFiltered(emptyFilter);
+
+        // Verify
+        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
+        List<Movie> result = moviesCaptor.getValue();
+
+        // Assert: Se visualiza la lista con todas las películas disponibles
+        Assert.assertEquals(allMovies.size(), result.size());
+        Assert.assertTrue(result.containsAll(allMovies));
+    }
+
+    @Test
+    public void testFilterBy2020sDecade() {
+        // Arrange
+        simulateSuccessfulLoad();
+        List<String> filter = Collections.singletonList("2020's");
+
+        // Act
+        presenter.onDecadesFiltered(filter);
+
+        // Verify
+        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
+        List<Movie> result = moviesCaptor.getValue();
+
+        // Assert: Se visualiza la lista con únicamente las películas de la década de 2020
+        Assert.assertEquals(2, result.size());
+        Assert.assertTrue(result.contains(movie1));
+        Assert.assertTrue(result.contains(movie3));
+    }
+
+    @Test
+    public void testFilterByNA() {
+        // Arrange
+        simulateSuccessfulLoad();
+        List<String> filter = Collections.singletonList("NA");
+
+        // Act
+        presenter.onDecadesFiltered(filter);
+
+        // Verify
+        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
+        List<Movie> result = moviesCaptor.getValue();
+
+        // Assert: Se visualiza la lista con las películas con fecha anómala o nula
+        Assert.assertEquals(2, result.size());
+        Assert.assertTrue(result.contains(movie4));
+        Assert.assertTrue(result.contains(movie5));
     }
 }
