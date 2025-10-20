@@ -135,7 +135,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         btnAplicar.setEnabled(false);
 
         List<String> selectedGenres = new ArrayList<>();
-        List<String> initialSelection = new ArrayList<>(selectedGenres);
 
 
         for (String genre : genresWithCount) {
@@ -148,6 +147,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 checkBox.setChecked(true);
                 selectedGenres.add(genre);
             }
+
+            List<String> initialSelection = new ArrayList<>(selectedGenres);
+
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
@@ -189,11 +191,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         btnAplicar.setEnabled(false);
 
         final List<String> selectedDecades = new ArrayList<>();
-        if (selectedDecadesSaved != null) {
-            selectedDecades.addAll(selectedDecadesSaved);
-        }
-
-        List<String> initialSelection = new ArrayList<>(selectedDecades);
 
         for (String decade : decadesWithCount) {
             CheckBox checkBox = new CheckBox(this);
@@ -206,6 +203,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 selectedDecades.add(decade);
             }
 
+            List<String> initialSelection = new ArrayList<>(selectedDecades);
+
+
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     selectedDecades.add(decade);
@@ -215,6 +215,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
                 boolean changed = !new HashSet<>(selectedDecades).equals(new HashSet<>(initialSelection));
                 btnAplicar.setEnabled(changed);
+
             });
             container.addView(checkBox);
         }
