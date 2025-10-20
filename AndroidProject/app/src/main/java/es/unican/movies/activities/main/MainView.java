@@ -178,34 +178,37 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarGenero);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarGenero);
 
-        btnAplicar.setEnabled(false); // Desactivado hasta que haya cambios
+        // Usamos una lista temporal para esta sesión del diálogo
+        List<String> tempSelected = new ArrayList<>();
+        if (selectedGenresSaved != null) {
+            tempSelected.addAll(selectedGenresSaved);
+        }
 
-        // Crea dinámicamente los CheckBox de cada género
+        // Guardamos la selección inicial para detectar cambios
+        final List<String> initialSelection = new ArrayList<>(tempSelected);
+
+        btnAplicar.setEnabled(false);
+
         for (String genre : genresWithCount) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(genre);
             checkBox.setTextSize(16);
             checkBox.setPadding(8, 8, 8, 8);
 
-            // Marca los géneros que ya estaban seleccionados
-            if (selectedGenresSaved != null && selectedGenresSaved.contains(genre)) {
+            // Marca los géneros seleccionados
+            if (tempSelected.contains(genre)) {
                 checkBox.setChecked(true);
-                selectedGenres.add(genre);
             }
 
-            // Guarda el estado inicial para detectar cambios
-            List<String> initialSelection = new ArrayList<>(selectedGenres);
-
-            // Listener que detecta si el usuario marca o desmarca un género
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    selectedGenres.add(genre);
+                    tempSelected.add(genre);
                 } else {
-                    selectedGenres.remove(genre);
+                    tempSelected.remove(genre);
                 }
 
-                // Activa el botón solo si hubo cambios reales
-                boolean changed = !new HashSet<>(selectedGenres).equals(new HashSet<>(initialSelection));
+                // Activamos el botón solo si hubo cambios
+                boolean changed = !new HashSet<>(tempSelected).equals(new HashSet<>(initialSelection));
                 btnAplicar.setEnabled(changed);
             });
 
@@ -213,19 +216,22 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false); // No se cierra tocando fuera
+        dialog.setCanceledOnTouchOutside(false);
 
-        // Botón "Cancelar"
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
-        // Botón "Aplicar"
         btnAplicar.setOnClickListener(v -> {
-            presenter.onGenresFiltered(selectedGenres); // Aplica los filtros
+            // Actualizamos la lista global
+            selectedGenres.clear();
+            selectedGenres.addAll(tempSelected);
+
+            presenter.onGenresFiltered(selectedGenres);
             dialog.dismiss();
         });
 
         dialog.show();
     }
+
 
     // Muestra el diálogo para filtrar por década
     @Override
@@ -239,6 +245,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDecada);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
 
+        // Usamos una lista temporal para esta sesión del diálogo
+        List<String> tempSelected = new ArrayList<>();
+        if (selectedDecadesSaved != null) {
+            tempSelected.addAll(selectedDecadesSaved);
+        }
+
+        // Guardamos la selección inicial para detectar cambios
+        final List<String> initialSelection = new ArrayList<>(tempSelected);
+
         btnAplicar.setEnabled(false); // Desactivado hasta que haya cambios
 
         // Crea dinámicamente los CheckBox de cada década
@@ -249,24 +264,20 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             checkBox.setPadding(8, 8, 8, 8);
 
             // Marca las décadas ya seleccionadas
-            if (selectedDecadesSaved != null && selectedDecadesSaved.contains(decade)) {
+            if (tempSelected.contains(decade)) {
                 checkBox.setChecked(true);
-                selectedDecades.add(decade);
             }
 
-            // Guarda la selección inicial
-            List<String> initialSelection = new ArrayList<>(selectedDecades);
-
-            // Listener para cambios en la selección
+            // Listener para detectar cambios
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    selectedDecades.add(decade);
+                    tempSelected.add(decade);
                 } else {
-                    selectedDecades.remove(decade);
+                    tempSelected.remove(decade);
                 }
 
-                // Activa "Aplicar" si hubo cambios
-                boolean changed = !new HashSet<>(selectedDecades).equals(new HashSet<>(initialSelection));
+                // Activa "Aplicar" solo si hay cambios reales
+                boolean changed = !new HashSet<>(tempSelected).equals(new HashSet<>(initialSelection));
                 btnAplicar.setEnabled(changed);
             });
 
@@ -281,7 +292,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         // Botón "Aplicar"
         btnAplicar.setOnClickListener(v -> {
-            presenter.onDecadesFiltered(selectedDecades); // Aplica el filtro
+            // Actualizamos la lista global
+            selectedDecades.clear();
+            selectedDecades.addAll(tempSelected);
+
+            presenter.onDecadesFiltered(selectedDecades);
             dialog.dismiss();
         });
 
