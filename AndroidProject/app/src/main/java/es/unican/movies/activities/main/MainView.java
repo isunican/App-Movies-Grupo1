@@ -40,6 +40,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     private IMainContract.Presenter presenter;
 
+    // botones de los filtros
+    List<String> selectedGenres = new ArrayList<>();
+    final List<String> selectedDecades = new ArrayList<>();
+
     @Inject
     IMoviesRepository repository;
 
@@ -76,6 +80,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         } else if (itemId == R.id.menuItemFilterDecade) {
             presenter.onFilterDecadeMenuClicked();
             return true;
+        } else if (itemId == R.id.menuItemFilterLimpiar) { // BOTON LIMPIAR
+            if (!selectedGenres.isEmpty()) {
+                presenter.onGenresFiltered(new ArrayList<>());
+            }
+
+            if (!selectedDecades.isEmpty()) {
+                presenter.onDecadesFiltered(new ArrayList<>());
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -148,8 +160,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         btnAplicar.setEnabled(false);
 
-        List<String> selectedGenres = new ArrayList<>();
-
 
         for (String genre : genresWithCount) {
             CheckBox checkBox = new CheckBox(this);
@@ -206,8 +216,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
 
         btnAplicar.setEnabled(false);
-
-        final List<String> selectedDecades = new ArrayList<>();
 
         for (String decade : decadesWithCount) {
             CheckBox checkBox = new CheckBox(this);
