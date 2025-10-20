@@ -41,4 +41,11 @@ public class Movie {
     @SerializedName("genres")
     protected List<Genres> genres;
 
+    public String getYear() {
+        if (releaseDate != null && releaseDate.length() >= 4) {
+            return (releaseDate.substring(0, 4));
+        }
+        return null;
+    }
+
 }
