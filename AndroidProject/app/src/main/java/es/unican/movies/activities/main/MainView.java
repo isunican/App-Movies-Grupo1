@@ -174,7 +174,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         View dialogView = inflater.inflate(R.layout.dialog_filter_decade, null);
         builder.setView(dialogView);
 
-        ScrollView container = dialogView.findViewById(R.id.containerDecadas);
+        LinearLayout container = dialogView.findViewById(R.id.containerDecadas);
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDecada);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
 
