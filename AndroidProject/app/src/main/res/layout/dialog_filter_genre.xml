@@ -17,13 +17,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="250dp"
+        android:contentDescription="@string/filter_by_genre">
 
         <LinearLayout
             android:id="@+id/containerGenros"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
     </ScrollView>
 
     <LinearLayout
