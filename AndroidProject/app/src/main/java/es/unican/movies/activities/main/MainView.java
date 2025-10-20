@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -173,7 +174,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         View dialogView = inflater.inflate(R.layout.dialog_filter_decade, null);
         builder.setView(dialogView);
 
-        LinearLayout container = dialogView.findViewById(R.id.containerDecadas);
+        ScrollView container = dialogView.findViewById(R.id.containerDecadas);
         Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDecada);
         Button btnAplicar = dialogView.findViewById(R.id.btnAplicarDecada);
 
