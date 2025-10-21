@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -48,10 +49,10 @@ public class LimpiarFiltroUITest {
     final IMoviesRepository repository = getTestRepository(context, R.raw.sample_movies_estela);
 
 
-    private static final String TITULO_PELI_SIN_FILTROS = "Los Cuatro Fantásticos: Primeros pasos";
+    private static final String TITULO_PELI_SIN_FILTROS = "The Fantastic 4: First Steps";
 
     private static final String TITULO_PELI_FILTRADA = "Universidad de Cantabria";
-    private static final int NUM_TOTAL_PELIS = 11;
+    private static final int NUM_TOTAL_PELIS = 4; // 11 en total en adaptes, 4 en pantalla
 
     /**
      * Simular la selección de los 2 filtros, verificar que los filtros se aplicaron.
@@ -87,18 +88,38 @@ public class LimpiarFiltroUITest {
         onView(withId(R.id.lvMovies)).check(matches(hasChildCount(1)));
 
 
-        // Uso de limpiar los filtros
+        // CLICK EN LIMPIAR
         onView(withId(R.id.menuItemFilter)).perform(click()); // click en filtros
         onView(withText(R.string.filter_limpiar)).perform(click()); // click en limpiar
 
-        // ya no se muestra la pelicula que aparecia tras aplicar los filtros
+
+        /**try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }*/
+
+        // comprueba que ya no se muestra la pelicula que aparecia tras aplicar los filtros
         onData(anything())
                 .inAdapterView(withId(R.id.lvMovies))
                 .check(matches(not(hasDescendant(withText(TITULO_PELI_FILTRADA)))));
 
+        onView(withText(TITULO_PELI_FILTRADA)).check(matches(not(isDisplayed())));
+
+
+        // La película SIN FILTROS (que antes no cumplía el filtro) AHORA es visible
+        onView(withText(TITULO_PELI_SIN_FILTROS)).check(matches(isDisplayed()));
+
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         // Ademas, se prueba que se muestra el numero total de peliculas inicial (el total).
         onView(withId(R.id.lvMovies))
-             .check(matches(hasChildCount(NUM_TOTAL_PELIS)));
+             .check(matches(hasChildCount(NUM_TOTAL_PELIS))); // numPelis en pantalla (4)
     }
 
 
@@ -124,7 +145,10 @@ public class LimpiarFiltroUITest {
                 .check(matches(not(hasDescendant(withText(TITULO_PELI_FILTRADA)))));
 
         // verifica que se muestra el numero total de peliculas
-
+        onView(withId(R.id.lvMovies))
+                .check(matches(hasChildCount(NUM_TOTAL_PELIS)));
     }
+
+
 
 }
