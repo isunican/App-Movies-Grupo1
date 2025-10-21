@@ -51,7 +51,7 @@ public class FiltrarPorDecadaUITest {
         // Pulsamos el boton y aplicamos el filtro por década de 2020
         onView(withId(R.id.menuItemFilter)).perform(click());
         onView(withId(R.id.menuItemFilterDecade)).perform(click());
-        onView(withText(containsString("2020's"))).perform(click());
+        onView(withText(containsString("2020's (9)"))).perform(click());
         onView(withId(R.id.btnAplicarDecada)).perform(click());
 
         // Verificamos que aparecen las 9 películas de dicha década
@@ -67,8 +67,6 @@ public class FiltrarPorDecadaUITest {
                 Assert.assertTrue(yearInt >= 2020 && yearInt <= 2029);
             }
         });
-
-
     }
 
     @Test
