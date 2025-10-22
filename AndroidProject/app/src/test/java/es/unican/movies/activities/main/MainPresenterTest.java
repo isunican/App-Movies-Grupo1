@@ -1,5 +1,4 @@
-package es.unican.movies;
-
+package es.unican.movies.activities.main;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,27 +6,19 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import org.robolectric.versioning.AndroidVersions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import es.unican.movies.activities.main.IMainContract;
-import es.unican.movies.activities.main.MainPresenter;
 import es.unican.movies.model.Genres;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.ICallback;
 import es.unican.movies.service.IMoviesRepository;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
+
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -37,8 +28,10 @@ import static org.mockito.Mockito.when;
 public class MainPresenterTest {
 
     private MainPresenter presenter;
+
     @Mock
     private IMainContract.View mockView;
+
     @Mock
     private IMoviesRepository mockRepo;
 
@@ -53,10 +46,7 @@ public class MainPresenterTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-
-        // --- Configuración de datos de prueba ---
+        // Inicializamos objetos para probar los tests
         Genres genreAccion = new Genres();
         genreAccion.setName("Acción");
         genreAccion.setId(1);
@@ -68,6 +58,10 @@ public class MainPresenterTest {
         Genres genreComedia = new Genres();
         genreComedia.setName("Comedia");
         genreComedia.setId(3);
+
+        Genres genreAnomalo = new Genres();
+        genreAnomalo.setName(null);
+        genreAnomalo.setId(4);
 
         movie1 = new Movie();
         movie1.setGenres(Collections.singletonList(genreAccion));
@@ -83,11 +77,11 @@ public class MainPresenterTest {
 
         movie4 = new Movie(); // Película con año nulo
         movie4.setReleaseDate(null);
-        movie4.setGenres(Collections.emptyList());
+        movie4.setGenres(Collections.singletonList(genreAventura));
 
-        movie5 = new Movie(); // Película con año vacío
-        movie5.setReleaseDate("");
-        movie5.setGenres(Collections.emptyList());
+        movie5 = new Movie(); // Película con año anómalo y género nulo
+        movie5.setReleaseDate("bvfusd");
+        movie5.setGenres(Collections.singletonList(genreAnomalo));
 
         allMovies = Arrays.asList(movie1, movie2, movie3, movie4, movie5);
     }
@@ -97,7 +91,7 @@ public class MainPresenterTest {
         when(mockView.getMoviesRepository()).thenReturn(mockRepo);
         presenter.init(mockView);
 
-        // Captura el callback y simula la carga exitosa de datos
+        // Simula la carga exitosa de datos5
         verify(mockRepo).requestAggregateMovies(callbackCaptor.capture());
         ICallback<List<Movie>> callback = callbackCaptor.getValue();
         callback.onSuccess(allMovies);
@@ -105,14 +99,11 @@ public class MainPresenterTest {
 
     @Test
     public void testFilterByOneGenre() {
-        // Arrange
         simulateSuccessfulLoad(); // Simula que las películas ya han sido cargadas
 
-        // Act
         List<String> filter = Collections.singletonList("Acción");
-        presenter.onGenresFiltered(filter);
+        presenter.onGenresFiltered(filter); // Llamada a la función
 
-        // Assert/Verify
         // Se llama a showMovies 2 veces: 1 en onSuccess, 1 después de filtrar
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
@@ -125,34 +116,29 @@ public class MainPresenterTest {
 
     @Test
     public void testFilterByMultipleGenres() {
-        // Arrange
         simulateSuccessfulLoad();
         List<String> filter = Arrays.asList("Acción", "Aventura");
 
-        // Act
         presenter.onGenresFiltered(filter);
 
-        // Verify
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
-        Assert.assertEquals(2, result.size());
+        Assert.assertEquals(3, result.size());
         Assert.assertTrue(result.contains(movie1));
         Assert.assertTrue(result.contains(movie2));
         Assert.assertFalse(result.contains(movie3));
+        Assert.assertTrue(result.contains(movie4));
     }
 
     @Test
     public void testFilterWithNoResults() {
-        // Arrange
         simulateSuccessfulLoad();
         // Filtramos por un género que no está en ninguna película
         List<String> filter = Collections.singletonList("Ciencia Ficción");
 
-        // Act
         presenter.onGenresFiltered(filter);
 
-        // Verify
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
@@ -160,22 +146,19 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void testFilterWithEmptyMovieList() {
-        // Arrange
+    public void testFilterWithEmptyMovieListGenre() {
         presenter = new MainPresenter();
         when(mockView.getMoviesRepository()).thenReturn(mockRepo);
         presenter.init(mockView);
 
-        // Captura el callback y simula una carga con lista vacía
+        // Simula una carga con lista vacía
         verify(mockRepo).requestAggregateMovies(callbackCaptor.capture());
         ICallback<List<Movie>> callback = callbackCaptor.getValue();
         callback.onSuccess(new ArrayList<>()); // Lista vacía
 
-        // Act
         List<String> filter = Collections.singletonList("Acción");
         presenter.onGenresFiltered(filter);
 
-        // Verify
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
@@ -183,18 +166,15 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void testFilterWithEmptyFilterList() {
-        // Arrange
+    public void testFilterWithEmptyFilterListGenre() {
         simulateSuccessfulLoad();
         List<String> emptyFilter = new ArrayList<>();
 
-        // Act
         presenter.onGenresFiltered(emptyFilter);
 
-        // Verify
         // showMovies se llama en onSuccess, y de nuevo en onGenresFiltered
         // que a su vez llama a applyFilters. Como el filtro está vacío,
-        // no se vuelve a llamar a showMovies, solo la vez inicial.
+        // no se vuelve a llamar a showMovies, solo la primera vez
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
@@ -203,61 +183,135 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void testFilterNoDecadeSelected() {
-        // Arrange
+    public void testFilterByNAGenre() {
         simulateSuccessfulLoad();
-        List<String> emptyFilter = new ArrayList<>();
+        List<String> filter = Collections.singletonList("NA");
 
-        // Act
-        presenter.onDecadesFiltered(emptyFilter);
+        presenter.onGenresFiltered(filter);
 
-        // Verify
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
-        // Assert: Se visualiza la lista con todas las películas disponibles
+        // Se visualiza la lista con las películas con fecha anómala o nula
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue(result.contains(movie5));
+    }
+
+
+    @Test
+    public void testFilterWithEmptyFilterListDecade() {
+        simulateSuccessfulLoad();
+        List<String> emptyFilter = new ArrayList<>();
+
+        presenter.onDecadesFiltered(emptyFilter);
+
+        // showMovies se llama en onSuccess, y de nuevo en onDecadesFiltered
+        // que a su vez llama a applyFilters. Como el filtro está vacío,
+        // no se vuelve a llamar a showMovies, solo la primera vez
+        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
+        List<Movie> result = moviesCaptor.getValue();
+
+        // Se visualiza la lista con todas las películas disponibles
         Assert.assertEquals(allMovies.size(), result.size());
         Assert.assertTrue(result.containsAll(allMovies));
     }
 
     @Test
     public void testFilterBy2020sDecade() {
-        // Arrange
         simulateSuccessfulLoad();
         List<String> filter = Collections.singletonList("2020's");
 
-        // Act
         presenter.onDecadesFiltered(filter);
 
-        // Verify
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
-        // Assert: Se visualiza la lista con únicamente las películas de la década de 2020
+        // Se visualiza la lista con únicamente las películas de la década de 2020
         Assert.assertEquals(2, result.size());
         Assert.assertTrue(result.contains(movie1));
         Assert.assertTrue(result.contains(movie3));
     }
 
     @Test
-    public void testFilterByNA() {
-        // Arrange
+    public void testFilterByNADecade() {
         simulateSuccessfulLoad();
         List<String> filter = Collections.singletonList("NA");
 
-        // Act
         presenter.onDecadesFiltered(filter);
 
-        // Verify
         verify(mockView, times(2)).showMovies(moviesCaptor.capture());
         List<Movie> result = moviesCaptor.getValue();
 
-        // Assert: Se visualiza la lista con las películas con fecha anómala o nula
+        // Se visualiza la lista con las películas con fecha anómala o nula
         Assert.assertEquals(2, result.size());
         Assert.assertTrue(result.contains(movie4));
         Assert.assertTrue(result.contains(movie5));
     }
 
+    @Test
+    public void testFilterBy1920sDecade() {
+        simulateSuccessfulLoad();
+        List<String> filter = Collections.singletonList("1920's");
+
+        presenter.onDecadesFiltered(filter);
+
+        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
+        List<Movie> result = moviesCaptor.getValue();
+
+        // Se visualiza la lista con únicamente las películas de la década de 1920
+        Assert.assertEquals(0, result.size());
+        Assert.assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testFilterWithEmptyMovieListDecade() {
+        presenter = new MainPresenter();
+        when(mockView.getMoviesRepository()).thenReturn(mockRepo);
+        presenter.init(mockView);
+
+        // Simula una carga con lista vacía
+        verify(mockRepo).requestAggregateMovies(callbackCaptor.capture());
+        ICallback<List<Movie>> callback = callbackCaptor.getValue();
+        callback.onSuccess(new ArrayList<>()); // Lista vacía
+
+        List<String> filter = Collections.singletonList("2020's");
+        presenter.onDecadesFiltered(filter);
+
+        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
+        List<Movie> result = moviesCaptor.getValue();
+
+        Assert.assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testClearWithFullAndEmptyList() {
+        // Escenario: Probar que las listas internas se vacían correctamente
+        // verificando la salida eficiente en una segunda llamada.
+
+        // Carga
+        simulateSuccessfulLoad(); // llama a showMovies(5)
+
+        // Se anhaden elementos a selectedGenresForFilter(privado) con onGenresFiltered.
+        // las listas privadas no estan llenas
+        presenter.onGenresFiltered(new ArrayList<>(Collections.singletonList("Acción (2)")));
+
+        // Limpiar 1 vez (hay filtros seleccionados)
+        presenter.onLimpiarFiltroMenuClicked(); // llama a showMovies(5)
+
+        // Verificar que se han limpiado las listas privadas (selectedGenresForFilter)
+        presenter.onLimpiarFiltroMenuClicked(); // NO LLAMA a showMovies(), estan vacias
+
+
+        // Se ha llamado 3 veces  (carga inicial + filtro + limpieza1)
+        verify(mockView, times(3)).showMovies(any());
+
+        // solo debe haber sido llamado 2 veces (carga + limpieza1)
+        verify(mockView, times(2)).showLoadCorrect(5);
+
+        // se llamo al aplicar el filtro
+        verify(mockView, times(1)).showLoadCorrect(2);
+
+    }
 
     @Test
     public void testClearWithBothFiltersApplied() {
@@ -291,35 +345,6 @@ public class MainPresenterTest {
     }
 
 
-    @Test
-    public void testClearWithFullAndEmptyList() {
-        // Escenario: Probar que las listas internas se vacían correctamente
-        // verificando la salida eficiente en una segunda llamada.
 
-        // Carga
-        simulateSuccessfulLoad(); // llama a showMovies(5)
-
-        // Se anhaden elementos a selectedGenresForFilter(privado) con onGenresFiltered.
-        // las listas privadas no estan llenas
-        presenter.onGenresFiltered(new ArrayList<>(Collections.singletonList("Acción (2)")));
-
-        // Limpiar 1 vez (hay filtros seleccionados)
-        presenter.onLimpiarFiltroMenuClicked(); // llama a showMovies(5)
-
-        // Verificar que se han limpiado las listas privadas (selectedGenresForFilter)
-        presenter.onLimpiarFiltroMenuClicked(); // NO LLAMA a showMovies(), estan vacias
-
-
-        // Se ha llamado 3 veces  (carga inicial + filtro + limpieza1)
-        verify(mockView, times(3)).showMovies(any());
-
-        // solo debe haber sido llamado 2 veces (carga + limpieza1)
-        verify(mockView, times(2)).showLoadCorrect(5);
-
-        // se llamo al aplicar el filtro
-        verify(mockView, times(1)).showLoadCorrect(2);
-
-    }
 
 }
-
