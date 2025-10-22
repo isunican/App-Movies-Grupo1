@@ -222,15 +222,19 @@ public class MainPresenter implements IMainContract.Presenter {
 
         displayedMovies = filteredMovies;
 
-        // Si hay un filtro de género activo, ordena las películas según el "rango" del género
         if (selectedGenresForFilter != null && !selectedGenresForFilter.isEmpty()) {
             Map<String, Integer> currentCountsForSorting = new HashMap<>();
-            for (Movie movie : displayedMovies) {
+            for (Movie movie : filteredMovies) {
                 if (movie.getGenres() == null || movie.getGenres().isEmpty()) {
-                    currentCountsForSorting.put("NA", currentCountsForSorting.getOrDefault("NA", 0) + 1);
+                    currentCountsForSorting.computeIfPresent("NA", (k, v) -> v + 1);
                 } else {
                     for (Genres genre : movie.getGenres()) {
-                        currentCountsForSorting.put(genre.getName(), currentCountsForSorting.getOrDefault(genre.getName(), 0) + 1);
+                        String genreName = genre.getName();
+                        if (genreName == null || genreName.trim().isEmpty()) {
+                            currentCountsForSorting.computeIfPresent("NA", (k, v) -> v + 1);
+                        } else {
+                            currentCountsForSorting.computeIfPresent(genreName, (k, v) -> v + 1);
+                        }
                     }
                 }
             }
