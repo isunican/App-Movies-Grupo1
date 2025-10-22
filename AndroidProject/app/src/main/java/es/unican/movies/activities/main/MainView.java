@@ -166,7 +166,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(new Intent(this, InfoActivity.class));
     }
 
-    // Muestra el diálogo para filtrar por género
+    /**
+     * Este método se encarga de inicializar y desplegar la vista de filtrado por géneros,
+     * presentando la lista de géneros disponibles junto con el número de elementos
+     * asociados a cada uno. Además, restaura la selección previa del usuario si existiera.
+     *
+     * @param genresWithCount          Lista de cadenas que representan los géneros disponibles
+     *                                 para el filtrado, usualmente en el formato
+     *                                 "Género (cantidad)".
+     * @param selectedGenresSaved      Lista de géneros que el usuario había seleccionado
+     *                                 anteriormente, usada para restaurar el estado del filtro.
+     */
     @Override
     public void showFilterByGenreActivity(List<String> genresWithCount, List<String> selectedGenresSaved) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -233,7 +243,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-    // Muestra el diálogo para filtrar por década
+    /**
+     * Muestra la actividad o interfaz que permite al usuario filtrar elementos por década
+     * Esta función se encarga de inicializar y desplegar la vista que presenta las décadas
+     * disponibles para filtrado, junto con el número de elementos asociados a cada una.
+     * También marca las décadas que ya han sido seleccionadas previamente por el usuario.
+     *
+     * @param decadesWithCount         Lista de cadenas que representan las décadas disponibles
+     *                                 para filtrado, usualmente en el formato "Década (cantidad)".
+     * @param selectedDecadesSaved     Lista de décadas que el usuario había seleccionado
+     *                                 anteriormente, usada para restaurar el estado del filtro.
+     */
     @Override
     public void showFilterByDecadeActivity(List<String> decadesWithCount, List<String> selectedDecadesSaved) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
