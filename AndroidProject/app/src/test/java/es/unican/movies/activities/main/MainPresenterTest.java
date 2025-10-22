@@ -59,8 +59,8 @@ public class MainPresenterTest {
         genreComedia.setId(3);
 
         Genres genreAnomalo = new Genres();
-        genreComedia.setName(null);
-        genreComedia.setId(4);
+        genreAnomalo.setName(null);
+        genreAnomalo.setId(4);
 
         movie1 = new Movie();
         movie1.setGenres(Collections.singletonList(genreAccion));

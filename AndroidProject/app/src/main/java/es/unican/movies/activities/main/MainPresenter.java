@@ -230,7 +230,12 @@ public class MainPresenter implements IMainContract.Presenter {
                     currentCountsForSorting.put("NA", currentCountsForSorting.getOrDefault("NA", 0) + 1);
                 } else {
                     for (Genres genre : movie.getGenres()) {
-                        currentCountsForSorting.put(genre.getName(), currentCountsForSorting.getOrDefault(genre.getName(), 0) + 1);
+                        String genreName = genre.getName();
+                        if (genreName == null || genreName.trim().isEmpty()) {
+                            currentCountsForSorting.put("NA", currentCountsForSorting.getOrDefault("NA", 0) + 1);
+                        } else {
+                            currentCountsForSorting.put(genre.getName(), currentCountsForSorting.getOrDefault(genre.getName(), 0) + 1);
+                        }
                     }
                 }
             }
@@ -260,12 +265,16 @@ public class MainPresenter implements IMainContract.Presenter {
 
         return movies.stream()
                 .filter(movie -> {
-                    if (movie.getGenres() == null || movie.getGenres().isEmpty()) {
-                        return cleanSelectedGenres.contains("NA");
-                    } else {
-                        return movie.getGenres().stream()
-                                .anyMatch(genre -> cleanSelectedGenres.contains(genre.getName()));
-                    }
+                    // Condición 1: La película tiene un género que coincide con los seleccionados
+                    boolean hasMatchingGenre = movie.getGenres() != null && movie.getGenres().stream()
+                            .anyMatch(g -> g != null && cleanSelectedGenres.contains(g.getName()));
+
+                    // Condición 2: La película es anómala Y el filtro "NA" está seleccionado
+                    boolean isAnomalous = movie.getGenres() == null || movie.getGenres().isEmpty() ||
+                            movie.getGenres().stream().anyMatch(g -> g == null || g.getName() == null || g.getName().trim().isEmpty());
+                    boolean shouldIncludeAsAnomalous = isAnomalous && cleanSelectedGenres.contains("NA");
+
+                    return hasMatchingGenre || shouldIncludeAsAnomalous;
                 })
                 .collect(Collectors.toList());
     }
