@@ -1,5 +1,4 @@
 package es.unican.movies.activities.main;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +12,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import es.unican.movies.model.Genres;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.ICallback;
 import es.unican.movies.service.IMoviesRepository;
 
+import static org.mockito.ArgumentMatchers.any;
+
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -281,5 +282,69 @@ public class MainPresenterTest {
 
         Assert.assertTrue(result.isEmpty());
     }
+
+    @Test
+    public void testClearWithFullAndEmptyList() {
+        // Escenario: Probar que las listas internas se vacían correctamente
+        // verificando la salida eficiente en una segunda llamada.
+
+        // Carga
+        simulateSuccessfulLoad(); // llama a showMovies(5)
+
+        // Se anhaden elementos a selectedGenresForFilter(privado) con onGenresFiltered.
+        // las listas privadas no estan llenas
+        presenter.onGenresFiltered(new ArrayList<>(Collections.singletonList("Acción (2)")));
+
+        // Limpiar 1 vez (hay filtros seleccionados)
+        presenter.onLimpiarFiltroMenuClicked(); // llama a showMovies(5)
+
+        // Verificar que se han limpiado las listas privadas (selectedGenresForFilter)
+        presenter.onLimpiarFiltroMenuClicked(); // NO LLAMA a showMovies(), estan vacias
+
+
+        // Se ha llamado 3 veces  (carga inicial + filtro + limpieza1)
+        verify(mockView, times(3)).showMovies(any());
+
+        // solo debe haber sido llamado 2 veces (carga + limpieza1)
+        verify(mockView, times(2)).showLoadCorrect(5);
+
+        // se llamo al aplicar el filtro
+        verify(mockView, times(1)).showLoadCorrect(2);
+
+    }
+
+    @Test
+    public void testClearWithBothFiltersApplied() {
+        // Realizar carga
+        simulateSuccessfulLoad();
+
+        // Crea listas mutables (haciendolo directamente desde presenter no deja) para que
+        // pueda limpiarse con .clear()
+        List<String> filtroGenero = new ArrayList<>(Collections.singletonList("Acción (2)"));
+        List<String> filtroDecada = new ArrayList<>(Collections.singletonList("1990's (1)"));
+
+        // Aplicacion de filtros, llena las listas: selectedGenresForFilter, selectedDecadesForFilter
+        presenter.onGenresFiltered(filtroGenero);
+        presenter.onDecadesFiltered(filtroDecada);
+
+        // verificacion
+        verify(mockView, times(3)).showMovies(any());
+
+        presenter.onLimpiarFiltroMenuClicked();
+
+        // 4 veces: carga+ 2 aplicar filtros+ limpiar
+        verify(mockView, times(4)).showMovies(moviesCaptor.capture());
+        // se llama 2 veces (carga inicial + limpiar)
+        verify(mockView, times(2)).showLoadCorrect(5);
+
+        // ultima lista capturada
+        List<Movie> listaRestaurada = moviesCaptor.getValue();
+        Assert.assertEquals(allMovies.size(), listaRestaurada.size());
+
+        verify(mockView, never()).showLoadError(); // verificar que no hubo errores de carga
+    }
+
+
+
 
 }
