@@ -92,13 +92,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
             // Botón para limpiar filtros
         } else if (itemId == R.id.menuItemFilterLimpiar) {
-            if (!selectedGenres.isEmpty()) {
-                presenter.onGenresFiltered(new ArrayList<>()); // Limpia géneros
-            }
-
-            if (!selectedDecades.isEmpty()) {
-                presenter.onDecadesFiltered(new ArrayList<>()); // Limpia décadas
-            }
+            presenter.onLimpiarFiltroMenuClicked();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

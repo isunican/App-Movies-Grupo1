@@ -313,6 +313,29 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
     /**
+     * Este método restablece el estado de filtrado a su configuración inicial,
+     * eliminando cualquier selección de géneros o décadas previamente aplicada.
+     * Si no había filtros activos, no realiza ninguna acción.
+     */
+    public void onLimpiarFiltroMenuClicked() {
+        // Si los filtros están vacios retorna directamente
+        if (selectedGenresForFilter.isEmpty() && selectedDecadesForFilter.isEmpty()) {
+            return;
+        }
+
+        // Limpia las listas de filtros seleccionados
+        selectedGenresForFilter.clear();
+        selectedDecadesForFilter.clear();
+
+        // Asigna todas las películas a la lista mostrada
+        displayedMovies = new ArrayList<>(allMovies);
+
+        // Notifica a la vista que muestre todas las películas
+        view.showMovies(displayedMovies);
+        view.showLoadCorrect(displayedMovies.size());
+    }
+
+    /**
      * Maneja el evento de clic sobre el botón de información del menú.
      */
     @Override
