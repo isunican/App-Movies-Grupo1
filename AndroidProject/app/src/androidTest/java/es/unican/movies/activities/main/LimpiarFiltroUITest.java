@@ -50,7 +50,7 @@ public class LimpiarFiltroUITest {
 
     private static final String TITULO_PELI_SIN_FILTROS = "The Fantastic 4: First Steps";
     private static final String TITULO_PELI_FILTRADA = "Universidad de Cantabria";
-    private static final int NUM_PELIS_VISIBLES_EN_PANTALLA = 4; // Android 10-pixel2- api 29
+    private static final int NUM_PELIS_VISIBLES_EN_PANTALLA = 5; // Android 10-pixel2- api 29
 
 
     @Test

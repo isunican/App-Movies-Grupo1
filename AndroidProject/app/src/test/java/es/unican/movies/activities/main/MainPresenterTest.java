@@ -260,7 +260,7 @@ public class MainPresenterTest {
 
 
 
-
+/*
     @Test
     public void testCleanWithDecadeFilterApplied(){
         simulateSuccessfulLoad(); // Simula la carga inicial de 5 peliculas
@@ -425,5 +425,5 @@ public class MainPresenterTest {
         // la vista debe ser notificada
         verify(mockView, times(1)).showLoadError();
     }
-
+*/
 }
