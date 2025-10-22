@@ -94,7 +94,12 @@ public class MainPresenter implements IMainContract.Presenter {
                 genreCounts.computeIfPresent("NA", (k, v) -> v + 1);
             } else {
                 for (Genres genre : movie.getGenres()) {
-                    genreCounts.computeIfPresent(genre.getName(), (k, v) -> v + 1);
+                    String genreName = genre.getName();
+                    if (genreName == null || genreName.trim().isEmpty()) {
+                        genreCounts.computeIfPresent("NA", (k, v) -> v + 1);
+                    } else {
+                        genreCounts.computeIfPresent(genreName, (k, v) -> v + 1);
+                    }
                 }
             }
         }
