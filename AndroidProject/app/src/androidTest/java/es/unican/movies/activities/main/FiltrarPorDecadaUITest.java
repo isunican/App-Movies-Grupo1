@@ -2,8 +2,9 @@ package es.unican.movies.activities.main;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -18,6 +19,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.not;
 
 import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -50,8 +52,8 @@ public class FiltrarPorDecadaUITest {
 
         // Pulsamos el boton y aplicamos el filtro por década de 2020
         onView(withId(R.id.menuItemFilter)).perform(click());
-        onView(withId(R.id.menuItemFilterDecade)).perform(click());
-        onView(withText(containsString("2020's (9)"))).perform(click());
+        onView(withText("Década")).perform(click());
+        onView(withText(containsString("2020's (9)"))).perform(scrollTo(),click());
         onView(withId(R.id.btnAplicarDecada)).perform(click());
 
         // Verificamos que aparecen las 9 películas de dicha década
@@ -74,10 +76,10 @@ public class FiltrarPorDecadaUITest {
 
         // Pulsamos el boton del filtro pero no seleccionamos nada.
         onView(withId(R.id.menuItemFilter)).perform(click());
-        onView(withId(R.id.menuItemFilterDecade)).perform(click());
+        onView(withText("Década")).perform(click());
 
         // Verificamos que el botón de aplicar esté deshabilitado
-        onView(withId(R.id.btnAplicarDecada)).check(matches(isNotEnabled()));
+        onView(withId(R.id.btnAplicarDecada)).check(matches(not(isEnabled())));
     }
 
 }
