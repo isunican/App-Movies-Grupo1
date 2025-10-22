@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -106,7 +107,20 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showLoadError() {
-        Toast.makeText(this, "Error al cargar las películas", Toast.LENGTH_SHORT).show();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_error, null);
+        builder.setView(dialogView);
+
+        TextView tvMensajeError = dialogView.findViewById(R.id.tvMensajeError);
+        tvMensajeError.setText("Error al cargar las peliculas");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Button btnAceptarError = dialogView.findViewById(R.id.btnAceptarError);
+        btnAceptarError.setOnClickListener(v -> dialog.dismiss());
+
     }
 
     @Override
@@ -167,6 +181,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         AlertDialog dialog = builder.create();
 
+        dialog.setCanceledOnTouchOutside(false);
+
+
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
         btnAplicar.setOnClickListener(v -> {
@@ -221,6 +238,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         AlertDialog dialog = builder.create();
+
+        dialog.setCanceledOnTouchOutside(false);
 
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
