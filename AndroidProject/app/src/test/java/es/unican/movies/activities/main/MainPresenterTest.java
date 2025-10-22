@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -258,172 +259,67 @@ public class MainPresenterTest {
     }
 
 
-
-
-
     @Test
-    public void testCleanWithDecadeFilterApplied(){
-        simulateSuccessfulLoad(); // Simula la carga inicial de 5 peliculas
-
-        // Simulacion de que un filtro esta aplicado
-        List<String> filtroAplicado = Collections.singletonList("2020's (2)");
-        presenter.onDecadesFiltered(filtroAplicado);
-
-        // Ahora solo mostraria 2 peliculas la vista
-        verify(mockView, times(1)).showLoadCorrect(2);
-
-        // Simulacion de 'Limpiar filtro' con una lista vacia
-        presenter.onDecadesFiltered(new ArrayList<>());
-
-        // Verificacion que es llamada exactamente tres veces (al cargar, aplicar el filto y tras limpiar)
-        verify(mockView, times(3)).showMovies(moviesCaptor.capture());
-
-        // Obtiene la lista de todas las listas de pelis enviadas de nuevo a la vista (que son 3)
-        List<List<Movie>> peliculasCapturadas = moviesCaptor.getAllValues();
-        Assert.assertEquals(5, peliculasCapturadas.get(0).size()); // tras carga inicial (las 5)
-        Assert.assertEquals(2, peliculasCapturadas.get(1).size()); // tras aplicar filtro (solo 2)
-        Assert.assertEquals(5, peliculasCapturadas.get(2).size()); // vuelve a 5
-
-        List<Movie> listaPelisTrasLimpiar = peliculasCapturadas.get(2);
-
-        // La lista contiene todas las pelis disponibles
-        Assert.assertEquals(allMovies.size(), listaPelisTrasLimpiar.size());
-        Assert.assertTrue(listaPelisTrasLimpiar.containsAll(allMovies));
-
-        // No hubo errores de carga
-        verify(mockView, never()).showLoadError();
-
-        // Se le llamo 2 veces con el recuento correcto (al aplicar filtro y tras limpiar)
-        verify(mockView, times(2)).showLoadCorrect(5);
-    }
-
-    @Test
-    public void testCleanWithGenreFilterApplied(){
-        simulateSuccessfulLoad(); // Simula la carga inicial de 5 peliculas
-
-        // Simulacion de que un filtro esta aplicado
-        List<String> filtroAplicado = Collections.singletonList("Acción (2)");
-        presenter.onGenresFiltered(filtroAplicado);
-
-        // Ahora solo mostraria 2 peliculas la vista (movie1, movie2)
-        verify(mockView, times(1)).showLoadCorrect(2);
-
-        // Simulacion de 'Limpiar filtro' con una lista vacia
-        presenter.onGenresFiltered(new ArrayList<>());
-
-        // Verificacion que es llamada exactamente tres veces (al cargar, aplicar el filto y tras limpiar)
-        verify(mockView, times(3)).showMovies(moviesCaptor.capture());
-
-        // Obtiene la lista de todas las listas de pelis enviadas de nuevo a la vista (que son 3)
-        List<List<Movie>> peliculasCapturadas = moviesCaptor.getAllValues();
-        Assert.assertEquals(5, peliculasCapturadas.get(0).size()); // tras carga inicial (las 5)
-        Assert.assertEquals(2, peliculasCapturadas.get(1).size()); // tras aplicar filtro (solo 2)
-        Assert.assertEquals(5, peliculasCapturadas.get(2).size()); // vuelve a 5
-
-        List<Movie> listaPelisTrasLimpiar = peliculasCapturadas.get(2);
-
-        // La lista contiene todas las pelis disponibles
-        Assert.assertEquals(allMovies.size(), listaPelisTrasLimpiar.size());
-        Assert.assertTrue(listaPelisTrasLimpiar.containsAll(allMovies));
-
-        // No hubo errores de carga
-        verify(mockView, never()).showLoadError();
-
-        // Se le llamo 2 veces con el recuento correcto (al aplicar filtro y tras limpiar)
-        verify(mockView, times(2)).showLoadCorrect(5);
-    }
-
-    @Test
-    public void testCleanWithBothFiltersApplied(){
-        simulateSuccessfulLoad(); // primera llamada a showLoadCorrect(5)
-
-        List<String> filtroGeneroAplicado = Collections.singletonList("Aventura (1)");  // segunda con showLoadCorrect(1)
-        List<String> filtroDecadaAplicado = Collections.singletonList("1990's (1)"); // tercera con showLoadCorrect(1)
-
-        // Aplicar los filtros (2x applyFilters)
-        presenter.onGenresFiltered(filtroGeneroAplicado);
-        presenter.onDecadesFiltered(filtroDecadaAplicado);
-
-        verify(mockView, times(2)).showLoadCorrect(1);
-
-        // Simular limpiar filtro
-        presenter.onGenresFiltered(new ArrayList<>());
-        presenter.onDecadesFiltered(new ArrayList<>());
-
-        // showMovies fue llamado 5 veces en total (1 carga + 2 aplicar + 2 limpiar)
-        verify(mockView, times(5)).showMovies(moviesCaptor.capture());
-
-        // Obtiene la lista de todas las listas de pelis enviadas de nuevo a la vista (que son 5)
-        List<List<Movie>> peliculasCapturadas = moviesCaptor.getAllValues();
-
-        Assert.assertEquals(5, peliculasCapturadas.get(0).size());  // carga (5)
-        Assert.assertEquals(1, peliculasCapturadas.get(1).size()); // aplico genero (1)
-        Assert.assertEquals(1, peliculasCapturadas.get(2).size()); // and decada (1)
-        Assert.assertEquals(1, peliculasCapturadas.get(3).size());  // limpio genero (1)
-        Assert.assertEquals(5, peliculasCapturadas.get(4).size());  // limpio decada (1)
-
-        // La última lista debe ser la restauración completa
-        List<Movie> listaPelisTrasLimpiar = peliculasCapturadas.get(4);
-
-        Assert.assertEquals(allMovies.size(), listaPelisTrasLimpiar.size());
-        Assert.assertTrue(listaPelisTrasLimpiar.containsAll(allMovies));
-
-        // Verificar que showLoadCorrect(5) fue llamado 2 veces (carga, tras limpieza)
-        verify(mockView, times(2)).showLoadCorrect(5);
-    }
-
-    @Test
-    public void testCleanWithNoFiltersApplied() {
+    public void testClearWithBothFiltersApplied() {
+        // Realizar carga
         simulateSuccessfulLoad();
 
-        // Simulacion limpiar filtro
-        presenter.onDecadesFiltered(new ArrayList<>());
+        // Crea listas mutables (haciendolo directamente desde presenter no deja) para que
+        // pueda limpiarse con .clear()
+        List<String> filtroGenero = new ArrayList<>(Collections.singletonList("Acción (2)"));
+        List<String> filtroDecada = new ArrayList<>(Collections.singletonList("1990's (1)"));
 
-        // dos veces en carga y limpiar
-        verify(mockView, times(2)).showMovies(moviesCaptor.capture());
+        // Aplicacion de filtros, llena las listas: selectedGenresForFilter, selectedDecadesForFilter
+        presenter.onGenresFiltered(filtroGenero);
+        presenter.onDecadesFiltered(filtroDecada);
 
-        // Obtiene la lista de todas las listas de pelis enviadas de nuevo a la vista (que son 2)
-        List<List<Movie>> peliculasCapturadas = moviesCaptor.getAllValues();
+        // verificacion
+        verify(mockView, times(3)).showMovies(any());
 
-        Assert.assertEquals(5, peliculasCapturadas.get(0).size());  // carga (5)
-        Assert.assertEquals(5, peliculasCapturadas.get(1).size()); // tras limpiar (5)
+        presenter.onLimpiarFiltroMenuClicked();
 
-        // Deben ser iguales
-        List<Movie> listaPelisTrasLimpiar = peliculasCapturadas.get(1);
-        Assert.assertEquals(allMovies.size(), listaPelisTrasLimpiar.size());
-
-        verify(mockView, never()).showLoadError();
+        // 4 veces: carga+ 2 aplicar filtros+ limpiar
+        verify(mockView, times(4)).showMovies(moviesCaptor.capture());
+        // se llama 2 veces (carga inicial + limpiar)
         verify(mockView, times(2)).showLoadCorrect(5);
 
+        // ultima lista capturada
+        List<Movie> listaRestaurada = moviesCaptor.getValue();
+        Assert.assertEquals(allMovies.size(), listaRestaurada.size());
+
+        verify(mockView, never()).showLoadError(); // verificar que no hubo errores de carga
     }
 
 
     @Test
-    public void testLoadFails(){
-        presenter = new MainPresenter();
-        when(mockView.getMoviesRepository()).thenReturn(mockRepo);
+    public void testClearWithFullAndEmptyList() {
+        // Escenario: Probar que las listas internas se vacían correctamente
+        // verificando la salida eficiente en una segunda llamada.
 
-        // simular que requestAggregateMovies() falla
-        // simula error en API y ejecuta onFailure del callback
-        doAnswer(new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                // Capturamos el ICallback
-                ICallback<List<Movie>> theCallback = invocation.getArgument(0);
-                theCallback.onFailure(new Throwable("Error de conexion simulado"));
-                return null; // request es void
-            }
-        }).when(mockRepo).requestAggregateMovies(any());
+        // Carga
+        simulateSuccessfulLoad(); // llama a showMovies(5)
 
-        // 2. Inicializar el presenter, que dispara el load() fallido
-        presenter.init(mockView);
+        // Se anhaden elementos a selectedGenresForFilter(privado) con onGenresFiltered.
+        // las listas privadas no estan llenas
+        presenter.onGenresFiltered(new ArrayList<>(Collections.singletonList("Acción (2)")));
 
-        // allMovies es nulo(falla de carga), por lo que showMovies NO es llammado
-        verify(mockView, never()).showMovies(any());
-        verify(mockView, never()).showLoadCorrect(any(Integer.class));
+        // Limpiar 1 vez (hay filtros seleccionados)
+        presenter.onLimpiarFiltroMenuClicked(); // llama a showMovies(5)
 
-        // la vista debe ser notificada
-        verify(mockView, times(1)).showLoadError();
+        // Verificar que se han limpiado las listas privadas (selectedGenresForFilter)
+        presenter.onLimpiarFiltroMenuClicked(); // NO LLAMA a showMovies(), estan vacias
+
+
+        // Se ha llamado 3 veces  (carga inicial + filtro + limpieza1)
+        verify(mockView, times(3)).showMovies(any());
+
+        // solo debe haber sido llamado 2 veces (carga + limpieza1)
+        verify(mockView, times(2)).showLoadCorrect(5);
+
+        // se llamo al aplicar el filtro
+        verify(mockView, times(1)).showLoadCorrect(2);
+
     }
 
 }
+

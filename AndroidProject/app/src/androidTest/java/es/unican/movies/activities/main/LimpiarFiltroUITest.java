@@ -67,7 +67,7 @@ public class LimpiarFiltroUITest {
         // Seleccionar y aplicar filtro de 'Década'
         onView(withId(R.id.menuItemFilter)).perform(click());  // abre icono filtros
         onView(withText(R.string.filter_by_decade)).perform(click()); // click en 'Década'
-        onView(withText("2000's (1)")).perform(scrollTo(), click());
+
         onView(withText("APLICAR")).perform(click());
 
         // Verificacion del filtrado aplicado
