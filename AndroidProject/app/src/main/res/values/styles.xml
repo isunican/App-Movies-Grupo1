@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PopupDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item> <!-- nivel de oscuridad -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="BotonRojo" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#F44336</item>
+        <item name="cornerRadius">2dp</item>
+    </style>
+
+    <style name="BotonVerde" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">#4CAF50</item>
+        <item name="cornerRadius">2dp</item>
+    </style>
+
+</resources>

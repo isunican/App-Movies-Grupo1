@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import es.unican.movies.model.Genres;
 import es.unican.movies.model.Movie;
-import es.unican.movies.model.Genres;
 
 public class DetailsPresenter implements IDetailsContract.Presenter {
 
@@ -70,7 +69,7 @@ public class DetailsPresenter implements IDetailsContract.Presenter {
         if (voteAverage < 0 || voteCount < 0) {
             return "-";
         }
-        double normalizedCount = 2 * Math.log10(1 + voteCount);
+        double normalizedCount = 2 * Math.log10(1 + (double) voteCount);
         double summaryScoreValue = (voteAverage + normalizedCount) / 2;
         return formatDouble(summaryScoreValue, 2);
     }
