@@ -14,5 +14,6 @@
     <string name="filter_limpiar">Limpiar</string>
     <string name="cancelar">Cancelar</string>
     <string name="aplicar">Aplicar</string>
+    <string name="user_list_title">Mi Lista</string>
 
 </resources>
