@@ -221,7 +221,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
 
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
@@ -300,7 +299,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
 
         // Botón "Cancelar"
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
