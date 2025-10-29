@@ -31,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.movies.R;
 import es.unican.movies.activities.details.DetailsView;
 import es.unican.movies.activities.info.InfoActivity;
+import es.unican.movies.activities.userlist.UserListView;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.IMoviesRepository;
 
@@ -75,24 +76,25 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
 
-        // Opción de información
         if (itemId == R.id.menuItemInfo) {
             presenter.onMenuInfoClicked();
             return true;
-
-            // Filtro por género
+        } else if (itemId == R.id.btn_lista) {
+            startActivity(new Intent(this, UserListView.class));
+            return true;
         } else if (itemId == R.id.menuItemFilterGenre) {
             presenter.onFilterGenreMenuClicked();
             return true;
-
-            // Filtro por década
         } else if (itemId == R.id.menuItemFilterDecade) {
             presenter.onFilterDecadeMenuClicked();
             return true;
-
-            // Botón para limpiar filtros
         } else if (itemId == R.id.menuItemFilterLimpiar) {
-            presenter.onLimpiarFiltroMenuClicked();
+            // Limpia ambos filtros
+            selectedGenres.clear();
+            selectedDecades.clear();
+            // Notifica al presenter
+            presenter.onGenresFiltered(selectedGenres);
+            presenter.onDecadesFiltered(selectedDecades);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -263,7 +265,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // Usamos una lista temporal para esta sesión del diálogo
         List<String> tempSelected = new ArrayList<>();
         if (selectedDecadesSaved != null) {
-            tempSelected.addAll(selectedDecadesSaved);
+            tempSelected.addAll(tempSelected);
         }
 
         // Guardamos la selección inicial para detectar cambios
