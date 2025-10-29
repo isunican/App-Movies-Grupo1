@@ -80,6 +80,8 @@ public class FiltrarPorDecadaUITest {
 
         // Verificamos que el botón de aplicar esté deshabilitado
         onView(withId(R.id.btnAplicarDecada)).check(matches(not(isEnabled())));
+
+
     }
 
 }
