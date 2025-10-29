@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.list.ListActivity">
+
+    <!-- Contenedor principal de la Activity -->
+    <LinearLayout
+        android:id="@+id/main_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Toolbar principal (el que se va a mantener en toda la app) -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.Movies.Toolbar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+
+        <!-- Toolbar2 con Título, Estado y Valoración. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="#E0E0E0">
+
+            <!-- Columna título y portada de la pelicula -->
+            <TextView
+                android:id="@+id/tvTitulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="40dp"
+                android:paddingEnd="8dp"
+                android:text="@string/columnaTitulo"
+                android:textStyle="bold" />
+
+            <!-- Columna estado -->
+            <TextView
+                android:id="@+id/tvEstado"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/columnaEstado"
+                android:textStyle="bold" />
+
+            <!-- Columna valoración -->
+            <TextView
+                android:id="@+id/tvValoracion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/columnaValoracion"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- ListView -->
+        <ListView
+            android:id="@+id/lvMiLista"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
