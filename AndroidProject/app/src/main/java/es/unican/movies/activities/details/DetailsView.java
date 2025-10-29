@@ -3,6 +3,8 @@ package es.unican.movies.activities.details;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
@@ -13,6 +15,10 @@ import es.unican.movies.R;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.EImageSize;
 import es.unican.movies.service.ITmdbApi;
+
+import android.view.MenuItem;
+import android.view.Menu;
+import android.widget.Toolbar;
 
 public class DetailsView extends AppCompatActivity implements IDetailsContract.View {
 
@@ -28,10 +34,15 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
     private TextView tvVoteAverage;
     private TextView tvSummaryScore;
 
+    /**
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        // Configurar toolbar para que aparezca menu
+        Toolbar toolbar = findViewById(R.id.toolbarDetails);
+        setSupportActionBar(toolbar);
 
         // Link UI elements
         ivPoster = findViewById(R.id.imPoster);
@@ -45,6 +56,13 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         // Create presenter and init
         presenter = new DetailsPresenter(this);
         presenter.init();
+    }*/
+
+    // Método para cargar el menú de iconos (Filtro, Lista, Info)
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu); // Cargar el menu.xml con los iconos
+        return true;
     }
 
     @Override
