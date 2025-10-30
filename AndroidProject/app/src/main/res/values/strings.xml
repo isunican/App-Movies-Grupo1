@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Movies</string>
+    <string name="app_name">ReelTok</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="info">Info</string>
     <string name="poster_del_film">Póster del film</string>
@@ -14,5 +14,9 @@
     <string name="filter_limpiar">Limpiar</string>
     <string name="cancelar">Cancelar</string>
     <string name="aplicar">Aplicar</string>
+    <string name="lista">Lista</string>
+    <string name="columnaTitulo">Título</string>
+    <string name="columnaEstado">Estado</string>
+    <string name="columnaValoracion">Valoración</string>
 
 </resources>
