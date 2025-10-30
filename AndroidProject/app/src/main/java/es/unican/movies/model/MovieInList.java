@@ -15,7 +15,6 @@ public class MovieInList {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @NonNull
     private String title;
 
     private String posterPath;
@@ -23,7 +22,6 @@ public class MovieInList {
     /**
      * Estado de la película (Visto, En Proceso, Pendiente).
      */
-    @NonNull
     private String status;
 
     /**

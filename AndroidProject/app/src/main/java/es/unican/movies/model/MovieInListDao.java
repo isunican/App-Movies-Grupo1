@@ -32,4 +32,10 @@ public interface MovieInListDao {
      */
     @Query("DELETE FROM movies_in_list WHERE id = :movieId")
     void deleteMovieById(int movieId);
+
+    /**
+     * Elimina todas las películas de la tabla.
+     */
+    @Query("DELETE FROM movies_in_list")
+    void deleteAll();
 }

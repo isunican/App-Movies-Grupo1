@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Movies">
         <activity
-            android:name=".activities.list.ListActivity"
+            android:name=".activities.userlist.UserListView"
             android:exported="false" />
         <activity
             android:name=".activities.info.InfoActivity"

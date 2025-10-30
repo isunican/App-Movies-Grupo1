@@ -39,19 +39,45 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView ivPoster = itemView.findViewById(R.id.ivPoster);
-        private final TextView tvTitle = itemView.findViewById(R.id.tvTitle);
-        private final TextView tvStatus = itemView.findViewById(R.id.tvStatus);
-        private final TextView tvRating = itemView.findViewById(R.id.tvRating);
+        private final ImageView ivPoster;
+        private final TextView tvTitle;
+        private final TextView tvStatus;
+        private final TextView tvRating;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            ivPoster = itemView.findViewById(R.id.ivPoster);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvRating = itemView.findViewById(R.id.tvRating);
         }
 
         public void bind(MovieInList movie) {
             tvTitle.setText(movie.getTitle());
             tvStatus.setText("Estado: " + movie.getStatus());
-            tvRating.setText("Valoración: " + (movie.getRating() != null ? movie.getRating() : "N/A"));
+
+            String ratingValue = movie.getRating();
+            String ratingDisplay;
+
+            if (ratingValue != null) {
+                switch (ratingValue) {
+                    case "Bueno":
+                        ratingDisplay = "😊";
+                        break;
+                    case "Normal":
+                        ratingDisplay = "😐";
+                        break;
+                    case "Malo":
+                        ratingDisplay = "😞";
+                        break;
+                    default:
+                        ratingDisplay = ratingValue; // Muestra el valor original si no es uno de los esperados
+                }
+            } else {
+                ratingDisplay = "N/A";
+            }
+
+            tvRating.setText(ratingDisplay);
 
             if (movie.getPosterPath() != null && !movie.getPosterPath().isEmpty()) {
                 Picasso.get().load(movie.getPosterPath()).into(ivPoster);
