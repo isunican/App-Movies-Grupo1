@@ -24,7 +24,7 @@ public class UserListView extends AppCompatActivity implements IUserListContract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.avtivity_list_testing);
 
         // Add sample data for testing in a background thread
         new Thread(() -> {
