@@ -23,7 +23,7 @@ public class Movie {
     @SerializedName("original_title")
     protected String title;
 
-    @SerializedName("poster_path")
+    @SerializedName("poster_pat h")
     protected String posterPath;
 
     @SerializedName("runtime")

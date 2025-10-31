@@ -50,6 +50,8 @@ public interface IUserListContract {
          * Carga las películas de la lista del usuario desde el repositorio de datos.
          */
         void loadMovies();
+
+        void onDeleteAllClicked();
     }
 
 }
