@@ -56,10 +56,10 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_emoji_enfadado"
             android:contentDescription="@string/valoracion_enfado"
             android:background="?attr/selectableItemBackground"
             android:padding="8dp" />
+        <!--android:src="@drawable/ic_emoji_enfadado"-->
 
         <!-- emoji neutro -->
         <ImageButton
@@ -67,21 +67,22 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_emoji_normal"
             android:contentDescription="@string/valoracion_neutro"
             android:background="?attr/selectableItemBackground"
             android:padding="8dp" />
+        <!-- android:src="@drawable/ic_emoji_normal" -->
 
-        <!-- emoji feliz -->
+    <!-- emoji feliz -->
         <ImageButton
             android:id="@+id/btnEmojiHappy"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_emoji_feliz"
             android:contentDescription="@string/valoracion_feliz"
             android:background="?attr/selectableItemBackground"
             android:padding="8dp" />
+        <!--android:src="@drawable/ic_emoji_feliz"-->
+
     </LinearLayout>
 
     <!-- Botones aplicar, cancelar -->
