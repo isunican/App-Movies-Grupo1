@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.movies.R;
 import es.unican.movies.model.MovieInList;
+import es.unican.movies.model.MovieInListDao;
 
 /**
  * La UserListView es la actividad que muestra la lista de películas guardadas por el usuario.
@@ -19,6 +20,9 @@ import es.unican.movies.model.MovieInList;
  */
 @AndroidEntryPoint
 public class UserListView extends AppCompatActivity implements IUserListContract.View {
+
+    @Inject
+    MovieInListDao movieInListDao; // DAO inyectado para acceder a la BD de la lista de usuario
 
     @Inject
     IUserListContract.Presenter presenter;
@@ -33,7 +37,35 @@ public class UserListView extends AppCompatActivity implements IUserListContract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avtivity_list_testing);
-        presenter.init(this);
+
+        // Los datos de ejemplo para pruebas se insertan en un hilo secundario
+        new Thread(() -> {
+            movieInListDao.deleteAll();
+
+            MovieInList movie1 = new MovieInList();
+            movie1.setTitle("Peli Buena");
+            movie1.setPosterPath(""); // Ruta vacía para mostrar imagen por defecto
+            movie1.setStatus("Visto");
+            movie1.setRating("Bueno");
+            movieInListDao.insert(movie1);
+
+            MovieInList movie2 = new MovieInList();
+            movie2.setTitle("Peli Normal");
+            movie2.setPosterPath("");
+            movie2.setStatus("En Proceso");
+            movie2.setRating("Normal");
+            movieInListDao.insert(movie2);
+
+            MovieInList movie3 = new MovieInList();
+            movie3.setTitle("Peli Mala");
+            movie3.setPosterPath("");
+            movie3.setStatus("Pendiente");
+            movie3.setRating("Malo");
+            movieInListDao.insert(movie3);
+
+            // Inicializa el presentador en el hilo de UI después de insertar los datos
+            runOnUiThread(() -> presenter.init(this));
+        }).start();
     }
 
     /**
