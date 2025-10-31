@@ -11,9 +11,11 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import es.unican.movies.R;
 import es.unican.movies.model.MovieInList;
+import es.unican.movies.service.EImageSize;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
 
+    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
     private List<MovieInList> movies;
 
     public UserListAdapter(List<MovieInList> movies) {
@@ -80,7 +82,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             tvRating.setText(ratingDisplay);
 
             if (movie.getPosterPath() != null && !movie.getPosterPath().isEmpty()) {
-                Picasso.get().load(movie.getPosterPath()).into(ivPoster);
+                String imageUrl = IMAGE_BASE_URL + EImageSize.W185.value + movie.getPosterPath();
+                Picasso.get().load(imageUrl).into(ivPoster);
             } else {
                 ivPoster.setImageResource(R.drawable.ic_launcher_background); // Default image
             }

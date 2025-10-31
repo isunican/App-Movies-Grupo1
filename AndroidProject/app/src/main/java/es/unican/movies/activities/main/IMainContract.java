@@ -16,6 +16,7 @@ public interface IMainContract {
         void onFilterDecadeMenuClicked(); // New method for decade filter
         void onDecadesFiltered(List<String> selectedDecades);
         void onLimpiarFiltroMenuClicked();// New method for decade filter
+        void onRefreshClicked();
     }
 
     interface View {

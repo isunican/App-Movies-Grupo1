@@ -20,7 +20,9 @@ public class DatabaseModule {
     @Provides
     @Singleton
     public AppDatabase provideDatabase(Application application) {
-        return Room.databaseBuilder(application, AppDatabase.class, "movies-db").build();
+        return Room.databaseBuilder(application, AppDatabase.class, "movies-db")
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     @Provides

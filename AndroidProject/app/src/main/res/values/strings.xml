@@ -18,5 +18,6 @@
     <string name="columnaTitulo">Título</string>
     <string name="columnaEstado">Estado</string>
     <string name="columnaValoracion">Valoración</string>
+    <string name="add_to_list">Agregar a la lista:</string>
 
 </resources>

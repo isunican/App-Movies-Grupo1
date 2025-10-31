@@ -39,4 +39,12 @@ public class UserListPresenter implements IUserListContract.Presenter {
             }
         }).start();
     }
+
+    @Override
+    public void onDeleteAllClicked() {
+        new Thread(() -> {
+            movieDao.deleteAll();
+            loadMovies();
+        }).start();
+    }
 }

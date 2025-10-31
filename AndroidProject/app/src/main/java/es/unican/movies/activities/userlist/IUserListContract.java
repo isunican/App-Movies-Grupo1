@@ -15,6 +15,7 @@ public interface IUserListContract {
     interface Presenter {
         void init(View view);
         void loadMovies();
+        void onDeleteAllClicked();
     }
 
 }
