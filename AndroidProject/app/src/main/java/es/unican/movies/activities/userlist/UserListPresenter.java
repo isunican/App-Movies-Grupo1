@@ -11,6 +11,7 @@ import es.unican.movies.model.MovieInList;
 
 /**
  * Implementación del presentador para la lista de películas de un usuario.
+ * Se encarga de la lógica de la vista y de la gestión de los datos.
  */
 public class UserListPresenter implements IUserListContract.Presenter {
 
@@ -19,10 +20,17 @@ public class UserListPresenter implements IUserListContract.Presenter {
     private List<MovieInList> displayedMovies;
     private List<String> selectedStatusForFilter = new ArrayList<>();
 
+    /**
+     * Constructor del presentador.
+     */
     public UserListPresenter() {
         // Constructor vacío
     }
 
+    /**
+     * Inicializa el presentador. Carga los datos de prueba y los muestra en la vista.
+     * @param view La vista con la que el presentador se comunica.
+     */
     @Override
     public void init(IUserListContract.View view) {
         this.view = view;
@@ -58,11 +66,18 @@ public class UserListPresenter implements IUserListContract.Presenter {
         applyFilters();
     }
 
+    /**
+     * Gestiona el clic en el botón de información del menú.
+     */
     @Override
     public void onMenuInfoClicked() {
         view.showInfoActivity();
     }
 
+    /**
+     * Gestiona el clic en el botón de filtrar por estado. Calcula el conteo de películas
+     * por cada estado y solicita a la vista que muestre el diálogo de filtro.
+     */
     @Override
     public void onFilterStatusMenuClicked() {
         if (allMovies == null) {
@@ -93,12 +108,19 @@ public class UserListPresenter implements IUserListContract.Presenter {
         view.showFilterByStatusDialog(formattedStatusList, selectedStatusForFilter);
     }
 
+    /**
+     * Se llama cuando el usuario aplica un filtro de estado desde el diálogo.
+     * @param selectedStatus La lista de estados que el usuario ha seleccionado.
+     */
     @Override
     public void onStatusFiltered(List<String> selectedStatus) {
         this.selectedStatusForFilter = selectedStatus;
         applyFilters();
     }
 
+    /**
+     * Aplica los filtros seleccionados a la lista de todas las películas y actualiza la vista.
+     */
     private void applyFilters() {
         if (allMovies == null) return;
 
@@ -110,6 +132,11 @@ public class UserListPresenter implements IUserListContract.Presenter {
         view.showLoadCorrect(displayedMovies.size());
     }
 
+    /**
+     * Filtra una lista de películas según los estados seleccionados.
+     * @param movies La lista de películas a filtrar.
+     * @return Una nueva lista con solo las películas que coinciden con el filtro.
+     */
     private List<MovieInList> applyStatusFilter(List<MovieInList> movies) {
         if (selectedStatusForFilter == null || selectedStatusForFilter.isEmpty()) {
             return movies;
