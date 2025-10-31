@@ -1,6 +1,7 @@
 package es.unican.movies.activities.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,12 @@ import androidx.annotation.Nullable;
 
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import es.unican.movies.R;
+import es.unican.movies.activities.details.DetailsView;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.EImageSize;
 import es.unican.movies.service.ITmdbApi;
@@ -25,17 +29,10 @@ import es.unican.movies.service.ITmdbApi;
  */
 public class MovieAdapter extends ArrayAdapter<Movie> {
 
-    /**
-     * List of movies to display.
-     */
     private final List<Movie> movieList;
 
-    private final Context context;
-    
-    // Constructor without OnItemClickListener, which is now handled by the ListView itself
     protected MovieAdapter(@NonNull Context context, @NonNull List<Movie> movieList) {
         super(context, R.layout.activity_main_movie_item, movieList);
-        this.context = context;
         this.movieList = movieList;
     }
 
@@ -49,12 +46,19 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
                     .inflate(R.layout.activity_main_movie_item, parent, false);
         }
 
+        // Set the click listener to open the details view
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), DetailsView.class);
+            intent.putExtra(DetailsView.INTENT_MOVIE, Parcels.wrap(movie));
+            getContext().startActivity(intent);
+        });
+
         // poster
         ImageView ivPoster = convertView.findViewById(R.id.ivPoster);
         String imageUrl = ITmdbApi.getFullImagePath(movie.getPosterPath(), EImageSize.W92);
         Picasso.get().load(imageUrl).fit().centerInside().into(ivPoster);
 
-        // titulo
+        // title, using the correct ID from the layout
         TextView tvTitle = convertView.findViewById(R.id.tvTituloGenero);
         tvTitle.setText(movie.getTitle());
 
