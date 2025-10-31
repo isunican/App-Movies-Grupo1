@@ -31,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.movies.R;
 import es.unican.movies.activities.details.DetailsView;
 import es.unican.movies.activities.info.InfoActivity;
+import es.unican.movies.activities.userlist.UserListView;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.IMoviesRepository;
 
@@ -78,6 +79,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // Opción de información
         if (itemId == R.id.menuItemInfo) {
             presenter.onMenuInfoClicked();
+            return true;
+
+        // Navegación a la lista de usuario
+        } else if (itemId == R.id.menuItemUserList) {
+            Intent intent = new Intent(this, UserListView.class);
+            startActivity(intent);
             return true;
 
             // Filtro por género
