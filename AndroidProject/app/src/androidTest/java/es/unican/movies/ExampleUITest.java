@@ -30,7 +30,7 @@ import es.unican.movies.service.IMoviesRepository;
 @UninstallModules(RepositoriesModule.class)
 @HiltAndroidTest
 public class ExampleUITest {
-/*
+
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
@@ -73,6 +73,5 @@ public class ExampleUITest {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
         onView(withId(R.id.tvPuntuacionMedia)).check(matches(withText("-")));
     }
-        
- */
+
 }

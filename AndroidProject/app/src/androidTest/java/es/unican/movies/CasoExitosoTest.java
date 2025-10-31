@@ -32,7 +32,7 @@ import es.unican.movies.service.IMoviesRepository;
 @UninstallModules(RepositoriesModule.class)
 @HiltAndroidTest
 public class CasoExitosoTest {
-/*
+
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
@@ -82,5 +82,4 @@ public class CasoExitosoTest {
         onView(withId(R.id.tvTituloGenero)).check(matches(isDisplayed()));
     }
 
- */
 }
