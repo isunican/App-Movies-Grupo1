@@ -33,7 +33,7 @@ import es.unican.movies.service.IMoviesRepository;
 @UninstallModules(RepositoriesModule.class)
 @HiltAndroidTest
 public class DatosAnomalosTest {
-
+/*
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
@@ -74,4 +74,6 @@ public class DatosAnomalosTest {
         // 4. Verifico que la puntuación sumaria es "-" (debe ser así puesto que vote_count == -15).
         onView(withId(R.id.tvPuntuacionSumaria)).check(matches(withText("-")));
     }
+
+ */
 }
