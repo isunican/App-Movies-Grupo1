@@ -12,27 +12,39 @@ import es.unican.movies.R;
 import es.unican.movies.model.MovieInList;
 import es.unican.movies.model.MovieInListDao;
 
+/**
+ * La UserListView es la actividad que muestra la lista de películas guardadas por el usuario.
+ * Implementa la interfaz IUserListContract.View, siguiendo el patrón MVP, y se encarga de
+ * la presentación de los datos en la interfaz de usuario. Recibe las actualizaciones del
+ * UserListPresenter y las refleja en la pantalla.
+ */
 @AndroidEntryPoint
 public class UserListView extends AppCompatActivity implements IUserListContract.View {
 
     @Inject
-    MovieInListDao movieInListDao; // DAO para acceder a la BD de la lista de usuario
+    MovieInListDao movieInListDao; // DAO inyectado para acceder a la BD de la lista de usuario
 
     @Inject
     IUserListContract.Presenter presenter;
 
+    /**
+     * Se llama cuando se crea la actividad. Se encarga de configurar la vista,
+     * inyectar las dependencias necesarias y comunicar al presentador que se inicie.
+     *
+     * @param savedInstanceState Si la actividad se reinicia, este Bundle contiene los datos más recientes.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avtivity_list_testing);
 
-        // Add sample data for testing in a background thread
+        // Los datos de ejemplo para pruebas se insertan en un hilo secundario
         new Thread(() -> {
             movieInListDao.deleteAll();
 
             MovieInList movie1 = new MovieInList();
             movie1.setTitle("Peli Buena");
-            movie1.setPosterPath(""); // Empty path to show default image
+            movie1.setPosterPath(""); // Ruta vacía para mostrar imagen por defecto
             movie1.setStatus("Visto");
             movie1.setRating("Bueno");
             movieInListDao.insert(movie1);
@@ -51,11 +63,17 @@ public class UserListView extends AppCompatActivity implements IUserListContract
             movie3.setRating("Malo");
             movieInListDao.insert(movie3);
 
-            // Initialize presenter on the UI thread after inserting data
+            // Inicializa el presentador en el hilo de UI después de insertar los datos
             runOnUiThread(() -> presenter.init(this));
         }).start();
     }
 
+    /**
+     * Muestra las películas en un RecyclerView. Este método es llamado por el presentador
+     * cuando las películas han sido cargadas exitosamente.
+     *
+     * @param movies La lista de películas para mostrar.
+     */
     @Override
     public void showMovies(List<MovieInList> movies) {
         runOnUiThread(() -> {
@@ -65,6 +83,9 @@ public class UserListView extends AppCompatActivity implements IUserListContract
         });
     }
 
+    /**
+     * Muestra un mensaje de error (Toast) cuando la carga de la lista de películas falla.
+     */
     @Override
     public void showLoadError() {
         runOnUiThread(() -> 
@@ -72,6 +93,9 @@ public class UserListView extends AppCompatActivity implements IUserListContract
         );
     }
 
+    /**
+     * Muestra un mensaje (Toast) indicando que la lista de películas del usuario está vacía.
+     */
     @Override
     public void showEmptyList() {
         runOnUiThread(() ->
