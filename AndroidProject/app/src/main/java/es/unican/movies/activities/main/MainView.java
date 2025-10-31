@@ -119,6 +119,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         lvMovies = findViewById(R.id.lvMovies);
     }
 
+    /**
+     * Muestra un diálogo que permite al usuario añadir una película a su lista personal.
+     * El diálogo recoge el estado de visualización (ej. "Visto", "Pendiente") y una
+     * valoración personal (ej. "Bueno", "Normal", "Malo").
+     *
+     * Al confirmar, crea un objeto {@link MovieInList} y lo inserta en la base de datos
+     * a través del DAO {@link MovieInListDao}. La operación de inserción se realiza en
+     * un hilo secundario para no bloquear la interfaz de usuario.
+     *
+     * @param movie La película que se va a añadir a la lista.
+     */
     public void showAddToListDialog(Movie movie) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
