@@ -18,7 +18,7 @@ import es.unican.movies.service.ITmdbApi;
 
 import android.view.MenuItem;
 import android.view.Menu;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 public class DetailsView extends AppCompatActivity implements IDetailsContract.View {
 
@@ -34,7 +34,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
     private TextView tvVoteAverage;
     private TextView tvSummaryScore;
 
-    /**
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +56,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         // Create presenter and init
         presenter = new DetailsPresenter(this);
         presenter.init();
-    }*/
-
+    }
     // Método para cargar el menú de iconos (Filtro, Lista, Info)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
