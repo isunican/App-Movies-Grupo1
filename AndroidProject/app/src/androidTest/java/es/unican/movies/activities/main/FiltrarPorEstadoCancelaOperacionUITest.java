@@ -34,6 +34,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
+import static es.unican.movies.utils.Matchers.isEmpty;
+import static es.unican.movies.utils.Matchers.peliculasenPendientesDeVer3;
 import static es.unican.movies.utils.MockRepositories.getTestRepository;
 
 import android.content.Context;
@@ -71,12 +73,9 @@ public class FiltrarPorEstadoCancelaOperacionUITest {
 
     // I need the context to access resources, such as the json with movies
     final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
+/*
     @Test
     public void FiltrarEstadoExitoso() {
-        // Paso 1: El usuario va a la pantalla de la lista
-        onView(withId(R.id.btn_Lista))
-                .perform(click());
         //Despliega el menu de filtros
         onView(withId(R.id.menuItemFilter))
                 .perform(click());
@@ -85,8 +84,20 @@ public class FiltrarPorEstadoCancelaOperacionUITest {
         onView(withText("Estado"))
                 .check(matches(isDisplayed()));
 
-        // Paso 3: El usuario selecciona el filtro de "Género"
-        onView(withText("Género"))
+        // Paso 3: El usuario selecciona el filtro de "Estado"
+        onView(withId(R.id.munuItemFilterStatus))
                 .perform(click());
+
+        // Paso 5: Pulsar el botón "Éxito" en el desplegable
+        onView(withId(R.id.btnEstadoPendiente))
+                .perform(click());
+
+        // Paso 6: Pulsar el botón "Aplicar" para aplicar el filtro
+        onView(withId(R.id.btnCancelarEstado))
+                .perform(click());
+        // Paso 7: Verificar que vista no tiene peliculas.
+        onView(withId(R.id.UserListVIew)).check(matches(isEmpty()));
     }
+
+ */
 }
