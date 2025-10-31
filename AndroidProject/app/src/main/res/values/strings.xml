@@ -18,5 +18,12 @@
     <string name="columnaTitulo">Título</string>
     <string name="columnaEstado">Estado</string>
     <string name="columnaValoracion">Valoración</string>
+    <string name="anhadir_a_mi_lista">Añadir a mi lista</string>
+    <string name="valoracion_feliz">Valoración: Feliz</string>
+    <string name="valoracion_neutro">Valoración: Neutral</string>
+    <string name="valoracion_enfado">Valoración: Enfado</string>
+    <string name="portada_pelicula">Portada pelicula</string>
+    <string name="estadoPelicula">Estado:</string>
+    <string name="valoracionPelicula">Valoración:</string>
 
 </resources>
