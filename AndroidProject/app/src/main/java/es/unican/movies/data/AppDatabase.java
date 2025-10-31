@@ -9,7 +9,7 @@ import es.unican.movies.model.MovieInListDao;
 /**
  * Clase de la base de datos Room.
  */
-@Database(entities = {MovieInList.class}, version = 2)
+@Database(entities = {MovieInList.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MovieInListDao movieInListDao();
 }
