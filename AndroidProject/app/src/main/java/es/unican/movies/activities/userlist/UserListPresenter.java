@@ -46,7 +46,7 @@ public class UserListPresenter implements IUserListContract.Presenter {
      */
     @Override
     public void loadMovies() {
-        // Las consultas de Room deben ejecutarse en un hilo secundario.
+        // Room queries must be run on a background thread.
         new Thread(() -> {
             try {
                 List<MovieInList> movies = movieDao.getAll();

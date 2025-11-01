@@ -46,7 +46,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
 
         // Link UI elements
         ivPoster = findViewById(R.id.imPoster);
-        tvTitle = findViewById(R.id.tvTituloGenero);
+        tvTitle = findViewById(R.id.tvTitle);
         tvReleaseYear = findViewById(R.id.tvEstreno);
         tvDuration = findViewById(R.id.tvDuracion);
         tvGenres = findViewById(R.id.tvGenero);
@@ -57,7 +57,8 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
         presenter = new DetailsPresenter(this);
         presenter.init();
     }
-    // Método para cargar el menú de iconos (Filtro, Lista, Info)
+
+    // Method to load the menu with icons (Filter, List, Info)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu); // Cargar el menu.xml con los iconos
@@ -84,7 +85,7 @@ public class DetailsView extends AppCompatActivity implements IDetailsContract.V
             Picasso.get().load(imageUrl).into(ivPoster);
         } else {
             // Set a placeholder image if the poster is not available
-            ivPoster.setImageResource(R.drawable.ic_launcher_background); // Asegúrate de tener un drawable para esto
+            ivPoster.setImageResource(R.drawable.ic_launcher_background); // Make sure you have a drawable for this
         }
     }
 }

@@ -27,6 +27,14 @@ public interface MovieInListDao {
     List<MovieInList> getAll();
 
     /**
+     * Obtiene una película de la base de datos por su ID.
+     * @param movieId El ID de la película a buscar.
+     * @return La película si se encuentra, o null si no.
+     */
+    @Query("SELECT * FROM movies_in_list WHERE id = :movieId")
+    MovieInList getMovieById(int movieId);
+
+    /**
      * Elimina una película de la base de datos por su ID.
      * @param movieId El ID de la película a eliminar.
      */

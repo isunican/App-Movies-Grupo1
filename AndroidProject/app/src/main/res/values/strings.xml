@@ -25,5 +25,6 @@
     <string name="portada_pelicula">Portada pelicula</string>
     <string name="estadoPelicula">Estado:</string>
     <string name="valoracionPelicula">Valoración:</string>
+    <string name="add_to_list">Agregar a la lista:</string>
 
 </resources>

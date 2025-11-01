@@ -1,113 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@drawable/dialog_background"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
 
-    <TextView
-        android:id="@+id/tvTituloApp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableStart="@mipmap/ic_launcher"
-        android:drawablePadding="10dp"
-        android:gravity="center_vertical"
-        android:text="@string/app_name"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"
-        tools:ignore="UseCompatTextViewDrawableXml" />
-
-    <!-- Sección estado (Spinner) -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/estadoPelicula"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
-
-    <Spinner
-        android:id="@+id/spinnerEstado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:layout_marginBottom="20dp"/>
-
-    <!-- Sección valoración (botones emoji) -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/valoracionPelicula"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
-
+    <!-- Movie Info -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="30dp">
+        android:gravity="center_vertical">
 
-        <!-- emoji enfado -->
-        <ImageButton
-            android:id="@+id/btnEmojiAngry"
+        <ImageView
+            android:id="@+id/ivDialogPoster"
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/tvDialogTitle"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/valoracion_enfado"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp" />
-        <!--android:src="@drawable/ic_emoji_enfadado"-->
-
-        <!-- emoji neutro -->
-        <ImageButton
-            android:id="@+id/btnEmojiNeutral"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/valoracion_neutro"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp" />
-        <!-- android:src="@drawable/ic_emoji_normal" -->
-
-    <!-- emoji feliz -->
-        <ImageButton
-            android:id="@+id/btnEmojiHappy"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/valoracion_feliz"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp" />
-        <!--android:src="@drawable/ic_emoji_feliz"-->
-
+            android:layout_marginStart="16dp"
+            android:text="Título de la Película"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Botones aplicar, cancelar -->
+    <!-- Status Spinner -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Estado"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spinnerStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minHeight="48dp" />
+
+    <!-- Rating Emojis -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Valoración"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvEmojiHappy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="😊"
+            android:textSize="40sp"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/tvEmojiNeutral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="😐"
+            android:textSize="40sp"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/tvEmojiSad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="😞"
+            android:textSize="40sp"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <!-- Action Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="end"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnCancelarLista"
-            style="@style/BotonRojo"
+            android:id="@+id/btnCancel"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/cancelar" />
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Cancelar" />
 
         <Button
-            android:id="@+id/btnAplicarLista"
-            style="@style/BotonVerde"
+            android:id="@+id/btnApply"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/aplicar" />
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Aplicar" />
     </LinearLayout>
+
 </LinearLayout>

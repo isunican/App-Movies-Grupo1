@@ -1,6 +1,7 @@
 package es.unican.movies.activities.userlist;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,34 +39,11 @@ public class UserListView extends AppCompatActivity implements IUserListContract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avtivity_list_testing);
 
-        // Los datos de ejemplo para pruebas se insertan en un hilo secundario
-        new Thread(() -> {
-            movieInListDao.deleteAll();
+        Button btnDeleteAll = findViewById(R.id.btn_delete_all);
+        btnDeleteAll.setOnClickListener(v -> presenter.onDeleteAllClicked());
 
-            MovieInList movie1 = new MovieInList();
-            movie1.setTitle("Peli Buena");
-            movie1.setPosterPath(""); // Ruta vacía para mostrar imagen por defecto
-            movie1.setStatus("Visto");
-            movie1.setRating("Bueno");
-            movieInListDao.insert(movie1);
-
-            MovieInList movie2 = new MovieInList();
-            movie2.setTitle("Peli Normal");
-            movie2.setPosterPath("");
-            movie2.setStatus("En Proceso");
-            movie2.setRating("Normal");
-            movieInListDao.insert(movie2);
-
-            MovieInList movie3 = new MovieInList();
-            movie3.setTitle("Peli Mala");
-            movie3.setPosterPath("");
-            movie3.setStatus("Pendiente");
-            movie3.setRating("Malo");
-            movieInListDao.insert(movie3);
-
-            // Inicializa el presentador en el hilo de UI después de insertar los datos
-            runOnUiThread(() -> presenter.init(this));
-        }).start();
+        presenter.init(this);
+        presenter.loadMovies();
     }
 
     /**
@@ -88,7 +66,7 @@ public class UserListView extends AppCompatActivity implements IUserListContract
      */
     @Override
     public void showLoadError() {
-        runOnUiThread(() -> 
+        runOnUiThread(() ->
             Toast.makeText(this, "Error al cargar la lista", Toast.LENGTH_SHORT).show()
         );
     }

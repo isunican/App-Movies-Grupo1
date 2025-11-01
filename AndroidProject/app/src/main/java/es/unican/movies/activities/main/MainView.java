@@ -7,10 +7,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -33,12 +38,17 @@ import es.unican.movies.activities.details.DetailsView;
 import es.unican.movies.activities.info.InfoActivity;
 import es.unican.movies.activities.userlist.UserListView;
 import es.unican.movies.model.Movie;
+import es.unican.movies.model.MovieInList;
+import es.unican.movies.model.MovieInListDao;
+import es.unican.movies.service.EImageSize;
 import es.unican.movies.service.IMoviesRepository;
+import es.unican.movies.service.ITmdbApi;
 
 @AndroidEntryPoint // Permite la inyección de dependencias con Hilt
 public class MainView extends AppCompatActivity implements IMainContract.View {
 
     private IMainContract.Presenter presenter; // Referencia al presentador (MVP)
+    private String selectedRating; // used for the dialog
 
     // Listas para guardar los filtros seleccionados
     List<String> selectedGenres = new ArrayList<>();
@@ -46,6 +56,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Inject
     IMoviesRepository repository; // Repositorio inyectado por Hilt (fuente de datos)
+
+    @Inject
+    MovieInListDao movieInListDao; // DAO para la lista de usuario
 
     private ListView lvMovies; // Lista donde se mostrarán las películas
 
@@ -104,11 +117,108 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void init() {
         lvMovies = findViewById(R.id.lvMovies);
+    }
 
-        // Acción al pulsar una película: mostrar detalles
-        lvMovies.setOnItemClickListener((parent, view, position, id) -> {
-            presenter.onItemClicked((Movie) parent.getItemAtPosition(position));
+    /**
+     * Muestra un diálogo que permite al usuario añadir una película a su lista personal.
+     * El diálogo recoge el estado de visualización (ej. "Visto", "Pendiente") y una
+     * valoración personal (ej. "Bueno", "Normal", "Malo").
+     *
+     * Al confirmar, crea un objeto {@link MovieInList} y lo inserta en la base de datos
+     * a través del DAO {@link MovieInListDao}. La operación de inserción se realiza en
+     * un hilo secundario para no bloquear la interfaz de usuario.
+     *
+     * @param movie La película que se va a añadir a la lista.
+     */
+    public void showAddToListDialog(Movie movie) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_to_list, null);
+        builder.setView(dialogView);
+
+        // Get views from dialog
+        ImageView ivDialogPoster = dialogView.findViewById(R.id.ivDialogPoster);
+        TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
+        Spinner spinnerStatus = dialogView.findViewById(R.id.spinnerStatus);
+        TextView tvEmojiHappy = dialogView.findViewById(R.id.tvEmojiHappy);
+        TextView tvEmojiNeutral = dialogView.findViewById(R.id.tvEmojiNeutral);
+        TextView tvEmojiSad = dialogView.findViewById(R.id.tvEmojiSad);
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+        Button btnApply = dialogView.findViewById(R.id.btnApply);
+
+        // Set movie data
+        tvDialogTitle.setText(movie.getTitle());
+        String imageUrl = ITmdbApi.getFullImagePath(movie.getPosterPath(), EImageSize.W154);
+        Picasso.get().load(imageUrl).into(ivDialogPoster);
+
+        // Setup Spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, new String[]{"Visto", "A medias", "Pendiente"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStatus.setAdapter(adapter);
+
+        // Setup Emojis
+        selectedRating = null; // Reset rating
+        final float selectedAlpha = 1.0f;
+        final float unselectedAlpha = 0.3f;
+
+        tvEmojiHappy.setAlpha(unselectedAlpha);
+        tvEmojiNeutral.setAlpha(unselectedAlpha);
+        tvEmojiSad.setAlpha(unselectedAlpha);
+
+        tvEmojiHappy.setOnClickListener(v -> {
+            selectedRating = "Bueno";
+            tvEmojiHappy.setAlpha(selectedAlpha);
+            tvEmojiNeutral.setAlpha(unselectedAlpha);
+            tvEmojiSad.setAlpha(unselectedAlpha);
         });
+
+        tvEmojiNeutral.setOnClickListener(v -> {
+            selectedRating = "Normal";
+            tvEmojiHappy.setAlpha(unselectedAlpha);
+            tvEmojiNeutral.setAlpha(selectedAlpha);
+            tvEmojiSad.setAlpha(unselectedAlpha);
+        });
+
+        tvEmojiSad.setOnClickListener(v -> {
+            selectedRating = "Malo";
+            tvEmojiHappy.setAlpha(unselectedAlpha);
+            tvEmojiNeutral.setAlpha(unselectedAlpha);
+            tvEmojiSad.setAlpha(selectedAlpha);
+        });
+
+        AlertDialog dialog = builder.create();
+
+        // Setup Buttons
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnApply.setOnClickListener(v -> {
+            if (selectedRating == null) {
+                Toast.makeText(this, "Por favor, selecciona una valoración", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String status = spinnerStatus.getSelectedItem().toString();
+
+            MovieInList movieInList = new MovieInList();
+            movieInList.setId(movie.getId()); // IMPORTANT: Set the movie ID
+            movieInList.setTitle(movie.getTitle());
+            movieInList.setPosterPath(movie.getPosterPath());
+            movieInList.setStatus(status);
+            movieInList.setRating(selectedRating);
+
+            new Thread(() -> {
+                movieInListDao.insert(movieInList);
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "Película añadida a tu lista", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    // Refresh the list to update the button states
+                    presenter.onRefreshClicked();
+                });
+            }).start();
+        });
+
+        dialog.show();
     }
 
     // Devuelve el repositorio de películas al presentador
@@ -120,7 +230,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     // Muestra la lista de películas en pantalla
     @Override
     public void showMovies(List<Movie> movies) {
-        MovieAdapter adapter = new MovieAdapter(this, movies);
+        MovieAdapter adapter = new MovieAdapter(this, movies, movieInListDao, this);
         lvMovies.setAdapter(adapter);
     }
 
@@ -264,7 +374,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // Usamos una lista temporal para esta sesión del diálogo
         List<String> tempSelected = new ArrayList<>();
         if (selectedDecadesSaved != null) {
-            tempSelected.addAll(tempSelected);
+            tempSelected.addAll(selectedDecadesSaved);
         }
 
         // Guardamos la selección inicial para detectar cambios
