@@ -61,7 +61,7 @@ public class DatosAnomalosTest {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
 
         // 2. Verifico que se ha cambiado a la vista de información detallada de la película correcta y el título es correcto.
-        onView(withId(R.id.tvTituloGenero)).check(matches(withText(peliculaDatoAnomalo)));
+        onView(withId(R.id.tvTitle)).check(matches(withText(peliculaDatoAnomalo)));
 
         // 3. Verifico que el resto de campos válidos de la película se muestran correctamente.
         onView(withId(R.id.tvGenero)).check(matches(withText("Ciencia ficción, Aventura")));
