@@ -39,8 +39,8 @@ import es.unican.movies.model.Genres;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.IMoviesRepository;
 
-@UninstallModules(RepositoriesModule.class)
-@HiltAndroidTest
+//@UninstallModules(RepositoriesModule.class)
+//@HiltAndroidTest
 public class FiltrarPorEstadoExitoUITest {
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);

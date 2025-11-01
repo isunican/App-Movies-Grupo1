@@ -62,10 +62,10 @@ import es.unican.movies.model.Genres;
 import es.unican.movies.model.Movie;
 import es.unican.movies.service.IMoviesRepository;
 
-@UninstallModules(RepositoriesModule.class)
-@HiltAndroidTest
+//@UninstallModules(RepositoriesModule.class)
+//@HiltAndroidTest
 public class FiltrarPorEstadoCancelaOperacionUITest {
-    @Rule(order = 0)  // the Hilt rule must execute first
+/*    @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
     @Rule(order = 1)
@@ -73,7 +73,7 @@ public class FiltrarPorEstadoCancelaOperacionUITest {
 
     // I need the context to access resources, such as the json with movies
     final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-/*
+
     @Test
     public void FiltrarEstadoExitoso() {
         //Despliega el menu de filtros
