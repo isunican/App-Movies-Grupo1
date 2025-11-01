@@ -26,12 +26,18 @@ public interface IUserListContract {
         /**
          * Muestra un mensaje de error si falla la carga de las películas.
          */
+
         void showLoadError();
 
         /**
          * Muestra un mensaje o un estado visual que indica que la lista de películas está vacía.
          */
         void showEmptyList();
+
+        void showLoadCorrect(int movieCount);
+
+        void showInfoActivity();
+        void showFilterByStatusDialog(List<String> statusesWithCount, List<String> selectedStatuses);
     }
 
     /**
@@ -52,6 +58,10 @@ public interface IUserListContract {
         void loadMovies();
 
         void onDeleteAllClicked();
+
+        void onMenuInfoClicked();
+        void onFilterStatusMenuClicked();
+        void onStatusFiltered(List<String> selectedStatus);
     }
 
 }

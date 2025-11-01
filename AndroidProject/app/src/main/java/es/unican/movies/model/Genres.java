@@ -5,9 +5,6 @@ import org.parceler.Parcel;
 import lombok.Getter;
 import lombok.Setter;
 
-
-
-
 @Getter
 @Setter
 @Parcel

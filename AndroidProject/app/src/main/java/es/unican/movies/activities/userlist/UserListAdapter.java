@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.squareup.picasso.Picasso;
 import java.util.List;
 import es.unican.movies.R;
@@ -20,8 +21,8 @@ import es.unican.movies.service.EImageSize;
  */
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
 
+    private final List<MovieInList> movies;
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
-    private List<MovieInList> movies;
 
     /**
      * Constructor para el UserListAdapter.
@@ -42,8 +43,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_in_list_testing, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_in_list_testing, parent, false);
         return new ViewHolder(view);
     }
 
@@ -59,17 +59,17 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     /**
-     * Devuelve el número total de elementos en el conjunto de datos que tiene el adaptador.
-     *
-     * @return El número total de elementos en este adaptador.
+     * Devuelve el número total de elementos en la lista.
+     * @return El tamaño de la lista de películas.
      */
     @Override
     public int getItemCount() {
-        return movies.size();
+        return movies != null ? movies.size() : 0;
     }
 
     /**
-     * El ViewHolder describe una vista de elemento y metadatos sobre su lugar dentro del RecyclerView.
+     * Clase ViewHolder que representa cada elemento individual de la lista.
+     * Contiene las referencias a las vistas (TextViews) para un solo item.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivPoster;
@@ -77,6 +77,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         private final TextView tvStatus;
         private final TextView tvRating;
 
+        /**
+         * Constructor del ViewHolder.
+         * @param itemView La vista raíz del elemento de la lista.
+         */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivPoster = itemView.findViewById(R.id.ivPoster);
