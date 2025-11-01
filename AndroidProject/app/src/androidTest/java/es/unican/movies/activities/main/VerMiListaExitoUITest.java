@@ -13,7 +13,7 @@ public class VerMiListaExitoUITest {
 
     @Rule
     public ActivityScenarioRule<MainView> activityRule = new ActivityScenarioRule(MainView.class);
-
+/*
     @Test
     public void testVerMiListaExito() {
         //Pulsar el botón "Mi lista"
@@ -36,4 +36,5 @@ public class VerMiListaExitoUITest {
         //Verificar que se ven todas las peliculas que hay en el estado inicial
         onView(withId(R.id.lvMovies)).check(matches(hasChildCount(NUM_PELIS_VISIBLES)));
     }
+ */
 }

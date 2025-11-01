@@ -47,7 +47,7 @@ public class ExampleUITest {
     @Test
     public void tituloAusenteTest() {
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).perform(click());
-        onView(withId(R.id.tvTituloGenero)).check(matches(withText("-")));
+        onView(withId(R.id.tvTitle)).check(matches(withText("-")));
     }
 
     @Test

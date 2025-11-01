@@ -88,7 +88,7 @@ public class LimpiarFiltroUITest {
 
         // Tras limpiar, vuelve a aparecer la primera pelicula visible sin aplicar filtros
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).
-                onChildView(withId(R.id.tvTituloGenero)).check(matches(withText(TITULO_PELI_SIN_FILTROS)));
+                onChildView(withId(R.id.tvTitle)).check(matches(withText(TITULO_PELI_SIN_FILTROS)));
 
         // Ya no se muestra la peli que daba resultado de los filtros
         onView(withText(TITULO_PELI_FILTRADA)).check(doesNotExist());
@@ -105,7 +105,7 @@ public class LimpiarFiltroUITest {
 
         // Verifica que no hay filtros aplicados, esta visible la primera pelicula por defecto
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).
-                onChildView(withId(R.id.tvTituloGenero)).check(matches(withText(TITULO_PELI_SIN_FILTROS)));
+                onChildView(withId(R.id.tvTitle)).check(matches(withText(TITULO_PELI_SIN_FILTROS)));
 
 
         // Seleccionar y aplicar Limpiar
@@ -117,7 +117,7 @@ public class LimpiarFiltroUITest {
 
         // Verificar que sigue visible la primera pelicula por defecto
         onData(anything()).inAdapterView(withId(R.id.lvMovies)).atPosition(0).
-                onChildView(withId(R.id.tvTituloGenero)).check(matches(withText(TITULO_PELI_SIN_FILTROS)));
+                onChildView(withId(R.id.tvTitle)).check(matches(withText(TITULO_PELI_SIN_FILTROS)));
 
     }
 
