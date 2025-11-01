@@ -38,7 +38,7 @@ public class UserListView extends AppCompatActivity implements IUserListContract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        /*setContentView(R.layout.activity_list);
 
         presenter = new UserListPresenter();
 
@@ -49,6 +49,8 @@ public class UserListView extends AppCompatActivity implements IUserListContract
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
         presenter.init(this);
+
+         */
     }
 
     /**
@@ -59,7 +61,7 @@ public class UserListView extends AppCompatActivity implements IUserListContract
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_list, menu);
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -71,14 +73,14 @@ public class UserListView extends AppCompatActivity implements IUserListContract
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-
+/*
         if (itemId == R.id.menuItemFilterStatus) {
             presenter.onFilterStatusMenuClicked();
             return true;
         } else if (itemId == R.id.menu_info) {
             presenter.onMenuInfoClicked();
             return true;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 

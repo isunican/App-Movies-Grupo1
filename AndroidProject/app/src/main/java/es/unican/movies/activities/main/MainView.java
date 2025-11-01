@@ -82,13 +82,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             return true;
 
         // Navegación a la lista de usuario
-        } else if (itemId == R.id.menuItemUserList) {
+        } /*else if (itemId == R.id.menuItemUserList) {
             Intent intent = new Intent(this, UserListView.class);
             startActivity(intent);
             return true;
 
             // Filtro por género
-        } else if (itemId == R.id.menuItemFilterGenre) {
+        } */else if (itemId == R.id.menuItemFilterGenre) {
             presenter.onFilterGenreMenuClicked();
             return true;
 
